@@ -1,2098 +1,836 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouna Cosmétique - Beauté Naturelle Africaine | Abidjan, Côte d'Ivoire</title>
-    <meta name="description" content="Découvrez Mouna Cosmétique, votre marque de beauté naturelle à Abidjan. Produits cosmétiques de qualité pour sublimer la beauté africaine. Commandez via WhatsApp.">
-    <meta name="keywords" content="cosmétique, beauté, Abidjan, Côte d'Ivoire, produits naturels, soins visage, corps, cheveux">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
-        
-        :root {
-            --primary-gold: #D4AF37;
-            --soft-pink: #F4E4E0;
-            --warm-beige: #F5F1EB;
-            --deep-rose: #C8A2A2;
-            --text-dark: #2D2D2D;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--warm-beige);
-        }
-        
-        .font-playfair {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .gradient-gold {
-            background: linear-gradient(135deg, #D4AF37, #F4E4E0);
-        }
-        
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .cart-item {
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .floating-whatsapp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .section-hidden {
-            display: none;
-        }
-        
-        .section-active {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-gold);
-        }
-        
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary-gold);
-        }
-
-        .map-container {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .product-carousel {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .carousel-container {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-slide {
-            flex-shrink: 0;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .carousel-slide iframe {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-card .h-48 {
-            height: 280px;
-        }
-
-        .carousel-slide {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #fef3c7, #fce7f3);
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            space-x: 4px;
-            gap: 4px;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: background-color 0.3s ease;
-        }
-
-        .carousel-dot.active {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .product-card:hover .carousel-container {
-            animation-play-state: paused;
-        }
-
-        /* Styles pour mobile */
-        @media (max-width: 768px) {
-            .floating-whatsapp {
-                bottom: 15px;
-                right: 15px;
-                padding: 12px;
-            }
-            
-            .floating-whatsapp i {
-                font-size: 1.5rem;
-            }
-            
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-        }
-
-        /* Menu mobile */
-        .nav-link-mobile {
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link-mobile:hover {
-            background-color: #fef3c7;
-            padding-left: 1rem;
-        }
-
-        /* Troncature du texte */
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Amélioration des carrousels sur mobile */
-        @media (max-width: 640px) {
-            .carousel-indicators {
-                bottom: 4px;
-            }
-            
-            .carousel-dot {
-                width: 6px;
-                height: 6px;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RedGreen.boutik — Boutique</title>
+<meta name="description" content="RedGreen.boutik — Boutique de mode féminine à Abidjan.">
+<style>
+:root{
+  --red:#d61f26;--green:#1ba579;--black:#111;--white:#fff;--gold:#c7a93a;
+  --bg:#fafafa;--muted:#666;--card:#fff;--border:#eee;
+}
+*{box-sizing:border-box}html,body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Color Emoji","Apple Color Emoji",sans-serif;color:var(--black);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:saturate(150%) blur(6px);border-bottom:1px solid var(--border)}
+.header .row{display:flex;align-items:center;gap:16px;padding:10px 0}
+.logo{font-weight:800;letter-spacing:.3px}
+.logo i{font-style:normal;color:var(--green)}
+.nav{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nav .chip{padding:8px 10px;border:1px solid var(--border);border-radius:999px;font-size:.9rem;background:#fff}
+.search{display:flex;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.search input{border:0;outline:0;width:180px}
+.icon-btn{position:relative;border:1px solid var(--border);background:#fff;border-radius:12px;padding:8px 10px}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:999px;padding:2px 6px;font-size:.7rem}
+.hero{background:linear-gradient(135deg, #fff 0%, #f7faf8 60%);border-bottom:1px solid var(--border)}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:28px 0}
+.hero h1{font-size:2rem;margin:.2rem 0}
+.hero p{color:var(--muted);line-height:1.5}
+.hero .banner{background:url('https://images.unsplash.com/photo-1520975693416-35a7d069f78f?q=80&w=1600&auto=format&fit=crop') center/cover;border-radius:18px;min-height:200px}
+.actions{display:flex;gap:10px;margin-top:10px}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600}
+.btn.primary{background:var(--green);color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--border)}
+.section{padding:24px 0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:210px;object-fit:cover;background:#f1f1f1}
+.card .body{padding:12px;display:flex;flex-direction:column;gap:8px}
+.price{font-weight:700;color:var(--black)}
+.muted{color:var(--muted);font-size:.95rem}
+.badge-sm{display:inline-block;background:#f6f6f6;border:1px solid var(--border);border-radius:999px;padding:3px 8px;font-size:.75rem}
+.kbd{font:600 .8rem ui-monospace,Menlo,monospace;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff}
+.footer{padding:30px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.95rem}
+.footer a.icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--border);border-radius:10px;margin-right:8px;background:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+select, input[type="text"], input[type="number"], textarea{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff}
+label{font-weight:600;font-size:.92rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{border-bottom:1px solid var(--border);padding:10px;text-align:left;vertical-align:top}
+.table tr:hover{background:#f9f9f9}
+.table .switch{cursor:pointer}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:50}
+.drawer{position:fixed;top:0;right:-420px;width:400px;max-width:100%;height:100%;background:#fff;border-left:1px solid var(--border);box-shadow:-8px 0 20px rgba(0,0,0,.05);transition:.25s;z-index:40;display:flex;flex-direction:column}
+.drawer.open{right:0}
+.drawer header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.drawer .content{padding:10px 16px;overflow:auto;flex:1}
+.drawer footer{border-top:1px solid var(--border);padding:12px 16px;display:grid;gap:10px}
+.cart-line{display:grid;grid-template-columns:64px 1fr auto;gap:10px;margin:10px 0}
+.cart-line img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.qty button{border:0;background:#fff;padding:6px 10px}
+.qty input{width:40px;text-align:center;border:0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:45}
+.modal.open{display:flex}
+.modal .panel{background:#fff;max-width:920px;width:96%;border-radius:16px;overflow:hidden}
+.modal header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)}
+.modal .body{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px}
+.gallery{display:grid;grid-template-columns:84px 1fr;gap:10px}
+.gallery .thumbs{display:grid;gap:8px;max-height:360px;overflow:auto}
+.gallery .thumbs img{width:84px;height:84px;object-fit:cover;border-radius:8px;border:2px solid transparent;cursor:pointer}
+.gallery .thumbs img.active{border-color:var(--green)}
+.gallery .main img,.gallery .main video{width:100%;height:360px;object-fit:cover;border-radius:12px;background:#f3f3f3}
+.map{border:0;width:100%;height:260px;border-radius:16px}
+.notice{padding:8px 12px;border:1px dashed var(--gold);background:#fff8d8;border-radius:10px;color:#7a6420}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr} .modal .body{grid-template-columns:1fr}}
+@media(max-width:540px){.grid{grid-template-columns:1fr} .nav .chip{display:none} .search input{width:110px}}
+</style>
 </head>
-<body class="bg-warm-beige">
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-yellow-400 to-pink-300 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-lg md:text-xl">M</span>
-                    </div>
-                    <div>
-                        <h1 class="font-playfair text-lg md:text-2xl font-bold text-gray-800">Mouna Cosmétique</h1>
-                        <p class="text-xs text-gray-600 hidden sm:block">Beauté Naturelle Africaine</p>
-                    </div>
-                </div>
-                
-                <!-- Navigation Desktop -->
-                <nav class="hidden lg:flex space-x-6">
-                    <a href="#" class="nav-link active text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('accueil')">Accueil</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('boutique')">Boutique</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('apropos')">À propos</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('temoignages')">Témoignages</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('contact')">Contact</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-yellow-600 font-medium text-sm" onclick="showSection('faq')">FAQ</a>
-                </nav>
-                
-                <div class="flex items-center space-x-3">
-                    <button onclick="showSection('panier')" class="relative p-2 text-gray-700 hover:text-yellow-600">
-                        <i class="fas fa-shopping-bag text-lg md:text-xl"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
-                    </button>
-                    
-                    <!-- Menu burger pour mobile -->
-                    <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-700 hover:text-yellow-600" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                    
-                    <div class="hidden md:flex space-x-2">
-                        <a href="#" class="text-pink-400 hover:text-pink-600"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-gray-800 hover:text-gray-600"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Menu Mobile -->
-        <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-200 hidden">
-            <div class="container mx-auto px-4 py-4">
-                <nav class="flex flex-col space-y-4">
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2 border-b border-gray-100" onclick="showSection('accueil'); toggleMobileMenu()">
-                        <i class="fas fa-home mr-3"></i>Accueil
-                    </a>
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2 border-b border-gray-100" onclick="showSection('boutique'); toggleMobileMenu()">
-                        <i class="fas fa-store mr-3"></i>Boutique
-                    </a>
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2 border-b border-gray-100" onclick="showSection('apropos'); toggleMobileMenu()">
-                        <i class="fas fa-info-circle mr-3"></i>À propos
-                    </a>
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2 border-b border-gray-100" onclick="showSection('temoignages'); toggleMobileMenu()">
-                        <i class="fas fa-star mr-3"></i>Témoignages
-                    </a>
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2 border-b border-gray-100" onclick="showSection('contact'); toggleMobileMenu()">
-                        <i class="fas fa-phone mr-3"></i>Contact
-                    </a>
-                    <a href="#" class="nav-link-mobile text-gray-700 hover:text-yellow-600 font-medium py-2" onclick="showSection('faq'); toggleMobileMenu()">
-                        <i class="fas fa-question-circle mr-3"></i>FAQ
-                    </a>
-                </nav>
-                
-                <!-- Réseaux sociaux mobile -->
-                <div class="flex justify-center space-x-6 mt-6 pt-4 border-t border-gray-200">
-                    <a href="#" class="text-pink-400 hover:text-pink-600 text-xl"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 text-xl"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-gray-800 hover:text-gray-600 text-xl"><i class="fab fa-tiktok"></i></a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Section Accueil -->
-    <section id="accueil" class="section-active">
-        <!-- Hero Banner -->
-        <div class="relative bg-gradient-to-r from-pink-100 to-yellow-50 py-12 md:py-20">
-            <div class="container mx-auto px-4">
-                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                    <div class="text-center md:text-left">
-                        <h2 class="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 md:mb-6">
-                            Révélez votre <span class="text-yellow-600">beauté naturelle</span>
-                        </h2>
-                        <p class="text-base md:text-xl text-gray-600 mb-6 md:mb-8 px-2 md:px-0">
-                            Découvrez nos cosmétiques naturels conçus spécialement pour sublimer la beauté africaine. 
-                            Des produits de qualité premium, fabriqués avec amour à Abidjan.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 px-4 sm:px-0">
-                            <button onclick="showSection('boutique')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg transition-colors">
-                                Découvrir nos produits
-                            </button>
-                            <a href="https://wa.me/+2250748641373?text=Bonjour%20Mouna%20Cosmétique%2C%20j%27aimerais%20en%20savoir%20plus%20sur%20vos%20produits" 
-                               class="border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-500 hover:text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg text-center transition-colors">
-                                <i class="fab fa-whatsapp mr-2"></i>Contactez-nous
-                            </a>
-                        </div>
-                    </div>
-                    <div class="relative mt-8 md:mt-0">
-                        <div class="w-full h-64 sm:h-80 md:h-96 bg-gradient-to-br from-yellow-200 to-pink-200 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg mx-auto max-w-sm md:max-w-none">
-                            <img src="https://i.postimg.cc/J7k73SGn/Whats-App-Image-2025-09-01-at-10-11-47.jpg" 
-                                 alt="Produits Mouna Cosmétique - Beauté Naturelle Africaine" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.src=''; this.alt='Image des produits non disponible'; this.style.display='none'; this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full\'><div class=\'text-center\'><div class=\'text-4xl md:text-6xl mb-4\'>✨</div><p class=\'text-lg md:text-xl font-semibold text-gray-700\'>Mouna Cosmétique</p><p class=\'text-sm md:text-base text-gray-600\'>Beauté Naturelle Africaine</p></div></div>';">
-                            
-                            <!-- Overlay décoratif -->
-                            <div class="absolute top-3 md:top-4 left-3 md:left-4 bg-white/90 backdrop-blur-sm px-2 md:px-3 py-1 md:py-2 rounded-full">
-                                <span class="text-yellow-600 font-semibold text-xs md:text-sm">✨ Nouveauté</span>
-                            </div>
-                            
-                            <!-- Badge qualité -->
-                            <div class="absolute top-3 md:top-4 right-3 md:right-4 bg-green-500/90 backdrop-blur-sm px-2 md:px-3 py-1 md:py-2 rounded-full">
-                                <span class="text-white font-semibold text-xs md:text-sm">🌿 100% Naturel</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Produits Phares -->
-        <div class="py-16 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h3 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Nos Produits Phares</h3>
-                    <p class="text-xl text-gray-600">Les incontournables de votre routine beauté</p>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/5NLwpvY4/Screenshot-. -Whats-App.jpg" alt="Gamme White Snow" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>❄️</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Gamme White Snow</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Gamme White Snow</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">Cette gamme est adaptée aux personnes déjà claires de peau qui veulent blanchir Cette gamme est blanchissante</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">80 000 FCFA</span>
-                                <button onclick="addToCart('Gamme White Snow', 80000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/QNYHZM72/Screenshot-. -Whats-App.jpg" alt="Gamme Gold perfection" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>✨</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Gamme Gold perfection</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Gamme Gold perfection</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">Cette gamme est adaptée aux personnes qui veulent un teint clair effet naturel Composé de : gommage, lait, savon, gel douche, kit visage, huile</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">60 000 FCFA</span>
-                                <button onclick="addToCart('Gamme Gold perfection', 60000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/t4XfKGyz/Screenshot-. -Whats-App.jpg" alt="Gamme complète chancelle" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>🌟</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Gamme complète chancelle</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Gamme complète chancelle</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">La gamme chancelle est élaborée spécialement pour traiter les imperfections de la peau. Adaptée à tous les types de peau</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">50 000 FCFA</span>
-                                <button onclick="addToCart('Gamme complète chancelle', 50000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/sfL5TyWS/Screenshot-. -Whats-App.jpg" alt="Gommage White Snow" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>❄️</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Gommage White Snow</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Gommage White Snow</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">Élaboré spécifiquement pour l'éclaircissement de la peau. Ce gommage vous redonne un éclat total</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">10 000 FCFA</span>
-                                <button onclick="addToCart('Gommage White Snow', 10000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/63Yq90R2/Screenshot-. -Whats-App.jpg" alt="Kit visage réparateur" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>🧴</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Kit visage réparateur</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Kit visage réparateur</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">Élaboré spécialement pour réparer la peau du visage quelque soit vos problèmes au visage cette gamme miracle vous débarrassera de toutes vos imperfections</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">15 000 FCFA</span>
-                                <button onclick="addToCart('Kit visage réparateur', 15000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card hover-lift">
-                        <div class="h-48 sm:h-56 md:h-64 bg-gradient-to-br from-pink-100 to-yellow-100 flex items-center justify-center overflow-hidden">
-                            <img src="https://i.postimg.cc/QNKJd40Z/Screenshot-. -Whats-App.jpg" alt="Kit kinto" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-center\'><div class=\'text-4xl md:text-5xl mb-2\'>✨</div><p class=\'font-semibold text-gray-700 text-sm md:text-base\'>Kit kinto</p></div>';">
-                        </div>
-                        <div class="p-4 md:p-6">
-                            <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">Kit kinto</h4>
-                            <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">Ce kit permet d'hydrater et de redonner de l'éclat aux parties sombres comme les doigts, les coudes, les orteils et même l'entrejambe noir</p>
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                                <span class="text-lg md:text-2xl font-bold text-yellow-600">10 000 FCFA</span>
-                                <button onclick="addToCart('Kit kinto', 10000)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base w-full sm:w-auto">
-                                    Ajouter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Témoignages -->
-        <div class="py-16 bg-pink-50">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h3 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Ce que disent nos clientes</h3>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm">
-                        <div class="flex items-center mb-3 md:mb-4">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-yellow-400 rounded-full flex items-center justify-center mr-3 md:mr-4">
-                                <span class="text-white font-bold text-sm md:text-base">A</span>
-                            </div>
-                            <div>
-                                <h5 class="font-semibold text-sm md:text-base">Aminata K.</h5>
-                                <div class="text-yellow-500 text-sm md:text-base">★★★★★</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 italic text-sm md:text-base">"Les produits Mouna ont transformé ma peau ! Ma crème hydratante est devenue indispensable à ma routine. Je recommande vivement !"</p>
-                    </div>
-                    
-                    <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm">
-                        <div class="flex items-center mb-3 md:mb-4">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-pink-400 rounded-full flex items-center justify-center mr-3 md:mr-4">
-                                <span class="text-white font-bold text-sm md:text-base">F</span>
-                            </div>
-                            <div>
-                                <h5 class="font-semibold text-sm md:text-base">Fatou D.</h5>
-                                <div class="text-yellow-500 text-sm md:text-base">★★★★★</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 italic text-sm md:text-base">"Enfin des cosmétiques qui comprennent ma peau ! L'huile capillaire a redonné vie à mes cheveux. Merci Mouna Cosmétique !"</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Boutique -->
-    <section id="boutique" class="section-hidden py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Notre Boutique</h2>
-                <p class="text-xl text-gray-600">Découvrez tous nos produits de beauté naturelle</p>
-            </div>
-            
-            <!-- Catégories -->
-            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12 px-2">
-                <button onclick="filterProducts('tous')" class="category-btn active bg-yellow-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-full font-semibold text-sm md:text-base">
-                    Tous les produits
-                </button>
-                <button onclick="filterProducts('visage')" class="category-btn bg-gray-200 text-gray-700 px-4 md:px-6 py-2 md:py-3 rounded-full font-semibold hover:bg-yellow-500 hover:text-white text-sm md:text-base">
-                    Soins du visage
-                </button>
-                <button onclick="filterProducts('corps')" class="category-btn bg-gray-200 text-gray-700 px-4 md:px-6 py-2 md:py-3 rounded-full font-semibold hover:bg-yellow-500 hover:text-white text-sm md:text-base">
-                    Soins du corps
-                </button>
-            </div>
-            
-            <!-- Produits -->
-            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                <!-- Les produits seront générés par JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Section À propos -->
-    <section id="apropos" class="section-hidden py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="font-playfair text-4xl font-bold text-gray-800 mb-6">Notre Histoire</h2>
-                    <p class="text-lg text-gray-600 mb-6">
-                        Mouna Cosmétique est née de la passion de notre fondatrice, Mouna Koné, pour la beauté naturelle africaine. 
-                        Basée à Abidjan, notre marque s'engage à créer des produits cosmétiques de qualité premium, 
-                        formulés spécialement pour sublimer la beauté de la femme africaine.
-                    </p>
-                    <p class="text-lg text-gray-600 mb-8">
-                        Nous utilisons des ingrédients naturels locaux comme le karité, l'aloe vera, et les huiles essentielles 
-                        pour créer des formules efficaces et respectueuses de votre peau.
-                    </p>
-                    
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-yellow-600 mb-2">500+</div>
-                            <p class="text-gray-600">Clientes satisfaites</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-yellow-600 mb-2">15+</div>
-                            <p class="text-gray-600">Produits naturels</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <div class="w-full h-96 bg-gradient-to-br from-yellow-200 to-pink-200 rounded-3xl overflow-hidden shadow-lg">
-                        <img src="https://i.postimg.cc/hPDfsg3p/Whats-App-Image-2025-09-01-at-23-04-56.jpg" 
-                             alt="Mouna Traoré - Fondatrice de Mouna Cosmétique" 
-                             class="w-full h-full object-cover"
-                             onerror="this.src=''; this.alt='Image de la fondatrice non disponible'; this.style.display='none'; this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full\'><div class=\'text-center\'><div class=\'text-6xl mb-4\'>👩🏾‍💼</div><p class=\'text-xl font-semibold text-gray-700\'>Mouna Traoré</p><p class=\'text-gray-600\'>Fondatrice & Visionnaire</p></div></div>';">
-                        
-                        <!-- Overlay avec le nom -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="text-white text-2xl font-bold font-playfair">Mouna Traoré</h3>
-                            <p class="text-white/90 text-lg">Fondatrice & Visionnaire</p>
-                        </div>
-                        
-                        <!-- Éléments décoratifs -->
-                        <div class="absolute top-4 left-4 w-12 h-12 bg-yellow-400/80 rounded-full flex items-center justify-center">
-                            <span class="text-white text-xl">✨</span>
-                        </div>
-                        <div class="absolute top-4 right-4 w-10 h-10 bg-pink-400/80 rounded-full flex items-center justify-center">
-                            <span class="text-white text-lg">💄</span>
-                        </div>
-                        <div class="absolute bottom-20 right-4 w-8 h-8 bg-green-400/80 rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm">🌿</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Nos Valeurs -->
-            <div class="mt-16">
-                <h3 class="font-playfair text-3xl font-bold text-center text-gray-800 mb-12">Nos Valeurs</h3>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl">🌿</span>
-                        </div>
-                        <h4 class="font-semibold text-xl mb-3">Naturel</h4>
-                        <p class="text-gray-600">Des ingrédients 100% naturels pour respecter votre peau</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl">✨</span>
-                        </div>
-                        <h4 class="font-semibold text-xl mb-3">Qualité</h4>
-                        <p class="text-gray-600">Des formules premium testées et approuvées</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-3xl">💝</span>
-                        </div>
-                        <h4 class="font-semibold text-xl mb-3">Authenticité</h4>
-                        <p class="text-gray-600">Créé par et pour la beauté africaine</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Panier -->
-    <section id="panier" class="section-hidden py-16">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <h2 class="font-playfair text-4xl font-bold text-center text-gray-800 mb-12">Mon Panier</h2>
-            
-            <div id="cart-items" class="space-y-4 mb-8">
-                <!-- Les articles du panier seront ajoutés ici -->
-            </div>
-            
-            <div id="cart-empty" class="text-center py-12">
-                <div class="text-6xl mb-4">🛍️</div>
-                <h3 class="text-2xl font-semibold text-gray-600 mb-4">Votre panier est vide</h3>
-                <button onclick="showSection('boutique')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold">
-                    Découvrir nos produits
-                </button>
-            </div>
-            
-            <div id="cart-summary" class="hidden bg-white p-6 rounded-2xl shadow-sm">
-                <div class="flex justify-between items-center text-xl font-semibold mb-6">
-                    <span>Total:</span>
-                    <span id="cart-total" class="text-yellow-600">0 FCFA</span>
-                </div>
-                
-                <!-- Formulaire d'informations client -->
-                <div class="border-t border-gray-200 pt-6 mb-6">
-                    <h4 class="font-semibold text-lg mb-4 flex items-center">
-                        <i class="fas fa-user text-yellow-600 mr-2"></i>
-                        Informations de livraison
-                    </h4>
-                    
-                    <form id="checkout-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                <i class="fas fa-user mr-1"></i>Nom et Prénom *
-                            </label>
-                            <input type="text" 
-                                   id="customer-name" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" 
-                                   placeholder="Ex: Aminata Traoré"
-                                   required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                <i class="fas fa-phone mr-1"></i>Numéro de téléphone *
-                            </label>
-                            <input type="tel" 
-                                   id="customer-phone" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" 
-                                   placeholder="Ex: +225 07 48 64 13 73"
-                                   required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                <i class="fas fa-map-marker-alt mr-1"></i>Adresse de livraison *
-                            </label>
-                            <textarea id="customer-address" 
-                                      rows="3" 
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" 
-                                      placeholder="Ex: Cocody, Riviera 2, Villa n°123, près de la pharmacie du coin"
-                                      required></textarea>
-                        </div>
-                        
-                        <!-- Options de livraison -->
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h5 class="font-semibold text-sm mb-3">Mode de livraison préféré:</h5>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="delivery-mode" value="domicile" class="mr-2" checked>
-                                    <span class="text-sm">🚚 Livraison à domicile</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="delivery-mode" value="showroom" class="mr-2">
-                                    <span class="text-sm">🏪 Retrait au showroom (Cocody)</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- Options de paiement -->
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h5 class="font-semibold text-sm mb-3">Mode de paiement préféré:</h5>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment-mode" value="mobile-money" class="mr-2" checked>
-                                    <span class="text-sm">📱 Mobile Money (Orange/MTN)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment-mode" value="cash-delivery" class="mr-2">
-                                    <span class="text-sm">💵 Paiement à la livraison</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment-mode" value="bank-transfer" class="mr-2">
-                                    <span class="text-sm">🏦 Virement bancaire</span>
-                                </label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                
-                <button onclick="finalizeOrderWithInfo()" class="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-full font-semibold text-lg transition-colors">
-                    <i class="fab fa-whatsapp mr-2"></i>Finaliser la commande sur WhatsApp
-                </button>
-                
-                <p class="text-xs text-gray-500 text-center mt-3">
-                    * Champs obligatoires. Vos informations sont sécurisées et ne seront utilisées que pour cette commande.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Témoignages -->
-    <section id="temoignages" class="section-hidden py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Témoignages Clients</h2>
-                <p class="text-xl text-gray-600">L'avis de nos clientes satisfaites</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">A</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Aminata K.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Les produits Mouna ont transformé ma peau ! Ma crème hydratante est devenue indispensable à ma routine. Je recommande vivement !"</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-pink-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">F</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Fatou D.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Enfin des cosmétiques qui comprennent ma peau ! L'huile White Snow a redonné vie à mon teint. Merci Mouna Cosmétique !"</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">M</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Mariam S.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Service client exceptionnel et produits de qualité. La livraison à Abidjan est rapide. Je suis une cliente fidèle !"</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">K</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Kadi B.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Le sérum vitamine C a illuminé mon teint en quelques semaines. Résultats visibles et durables !"</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">S</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Salimata T.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Produits naturels et efficaces. Ma peau n'a jamais été aussi douce. Bravo à l'équipe Mouna !"</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-red-400 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold">A</span>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">Awa M.</h5>
-                            <div class="text-yellow-500">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 italic">"Commande facile via WhatsApp et produits de qualité premium. Je recommande à toutes mes amies !"</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Contact -->
-    <section id="contact" class="section-hidden py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Contactez-nous</h2>
-                <p class="text-xl text-gray-600">Nous sommes là pour vous accompagner</p>
-            </div>
-            
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Informations de contact -->
-                <div>
-                    <h3 class="font-playfair text-2xl font-semibold mb-6">Informations de contact</h3>
-                    
-                    <div class="space-y-4 mb-8">
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-map-marker-alt text-yellow-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold">Adresse</p>
-                                <p class="text-gray-600">Cocody, Abidjan, Côte d'Ivoire</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fab fa-whatsapp text-green-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold">WhatsApp</p>
-                                <p class="text-gray-600">+225 07 48 64 13 73</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-envelope text-blue-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold">Email</p>
-                                <p class="text-gray-600">contact@mounacosmétique.ci</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold text-lg mb-4">Suivez-nous</h4>
-                        <div class="flex space-x-4">
-                            <a href="#" class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-gray-900">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Carte Google Maps Interactive -->
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm">
-                        <h3 class="font-playfair text-2xl font-semibold mb-4 flex items-center">
-                            <i class="fas fa-map-marker-alt text-yellow-600 mr-3"></i>
-                            Notre Emplacement
-                        </h3>
-                        
-                        <div class="map-container relative">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.1234567890123!2d-4.0123456789!3d5.3456789012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCocody%2C%20Abidjan%2C%20C%C3%B4te%20d%27Ivoire!5e0!3m2!1sfr!2sci!4v1234567890123!5m2!1sfr!2sci"
-                                width="100%" 
-                                height="350" 
-                                style="border:0;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade"
-                                class="w-full rounded-xl">
-                            </iframe>
-                            
-                            <!-- Overlay avec informations du magasin -->
-                            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-lg max-w-xs">
-                                <div class="flex items-center space-x-3 mb-2">
-                                    <div class="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                                    <span class="font-bold text-lg">Mouna Cosmétique</span>
-                                </div>
-                                <p class="text-sm text-gray-600 mb-2">📍 Cocody, Abidjan</p>
-                                <p class="text-xs text-gray-500">Siège social & Showroom</p>
-                            </div>
-                            
-                            <!-- Boutons d'action sur la carte -->
-                            <div class="absolute bottom-4 right-4 flex flex-col space-y-2">
-                                <a href="https://maps.google.com/?q=Cocody,Abidjan,Côte+d'Ivoire" 
-                                   target="_blank"
-                                   class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg flex items-center space-x-2 transition-colors">
-                                    <i class="fas fa-directions"></i>
-                                    <span>Itinéraire</span>
-                                </a>
-                                
-                                <a href="https://wa.me/+2250748641373?text=Bonjour%2C%20j%27aimerais%20venir%20visiter%20votre%20showroom%20%C3%A0%20Cocody" 
-                                   class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg flex items-center space-x-2 transition-colors">
-                                    <i class="fab fa-whatsapp"></i>
-                                    <span>Réserver</span>
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <!-- Informations pratiques -->
-                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="flex items-center space-x-3 p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-xl">
-                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-clock text-white"></i>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-sm">Horaires</p>
-                                    <p class="text-xs text-gray-600">Lun-Sam: 8h-18h</p>
-                                    <p class="text-xs text-gray-600">Dim: Sur RDV</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl">
-                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-car text-white"></i>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-sm">Parking</p>
-                                    <p class="text-xs text-gray-600">Gratuit sur place</p>
-                                    <p class="text-xs text-gray-600">Sécurisé 24h/24</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center space-x-3 p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl">
-                                <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-store text-white"></i>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-sm">Showroom</p>
-                                    <p class="text-xs text-gray-600">Essais gratuits</p>
-                                    <p class="text-xs text-gray-600">Conseils personnalisés</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Formulaire de contact -->
-                    <div class="bg-white p-8 rounded-2xl shadow-sm">
-                        <h3 class="font-playfair text-2xl font-semibold mb-6">Envoyez-nous un message</h3>
-                        <form id="contact-form" class="space-y-4">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nom complet</label>
-                                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Téléphone</label>
-                                    <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-                                <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Sujet</label>
-                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                                    <option>Demande d'information</option>
-                                    <option>Commande personnalisée</option>
-                                    <option>Visite du showroom</option>
-                                    <option>Partenariat</option>
-                                    <option>Autre</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
-                                <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-lg font-semibold transition-colors">
-                                <i class="fab fa-whatsapp mr-2"></i>Envoyer via WhatsApp
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal Produit -->
-    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center rounded-t-2xl">
-                <h3 id="modal-product-name" class="font-playfair text-xl md:text-2xl font-bold text-gray-800"></h3>
-                <button onclick="closeProductModal()" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center">
-                    <i class="fas fa-times text-gray-600"></i>
-                </button>
-            </div>
-            
-            <div class="p-4 md:p-6">
-                <div class="grid lg:grid-cols-2 gap-6 md:gap-8">
-                    <!-- Galerie média -->
-                    <div>
-                        <div class="relative mb-4">
-                            <div id="modal-media-container" class="w-full h-64 sm:h-80 md:h-96 bg-gradient-to-br from-pink-100 to-yellow-100 rounded-xl overflow-hidden">
-                                <!-- Le média principal sera affiché ici -->
-                            </div>
-                            
-                            <!-- Contrôles de navigation -->
-                            <button id="modal-prev-btn" onclick="changeModalMedia(-1)" class="absolute left-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                <i class="fas fa-chevron-left text-gray-700"></i>
-                            </button>
-                            <button id="modal-next-btn" onclick="changeModalMedia(1)" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg">
-                                <i class="fas fa-chevron-right text-gray-700"></i>
-                            </button>
-                            
-                            <!-- Indicateur de position -->
-                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                                <span id="modal-media-counter">1 / 1</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Miniatures -->
-                        <div id="modal-thumbnails" class="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                            <!-- Les miniatures seront générées ici -->
-                        </div>
-                    </div>
-                    
-                    <!-- Informations produit -->
-                    <div>
-                        <div class="mb-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <span id="modal-product-price" class="text-2xl md:text-3xl font-bold text-yellow-600"></span>
-                                <div class="flex items-center space-x-1 text-yellow-500">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span class="text-gray-600 ml-2">(4.9/5)</span>
-                                </div>
-                            </div>
-                            
-                            <div id="modal-product-category" class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold mb-4"></div>
-                            
-                            <p id="modal-product-description" class="text-gray-600 text-base leading-relaxed mb-6"></p>
-                        </div>
-                        
-                        <!-- Caractéristiques -->
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-lg mb-3">Caractéristiques</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex items-center">
-                                    <i class="fas fa-leaf text-green-500 mr-2"></i>
-                                    <span>100% Ingrédients naturels</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-shield-alt text-blue-500 mr-2"></i>
-                                    <span>Testé dermatologiquement</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-heart text-red-500 mr-2"></i>
-                                    <span>Adapté aux peaux sensibles</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-globe-africa text-yellow-500 mr-2"></i>
-                                    <span>Fabriqué en Côte d'Ivoire</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Quantité et ajout au panier -->
-                        <div class="border-t border-gray-200 pt-6">
-                            <div class="flex items-center space-x-4 mb-4">
-                                <label class="font-semibold">Quantité:</label>
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="updateModalQuantity(-1)" class="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-minus text-xs"></i>
-                                    </button>
-                                    <span id="modal-quantity" class="font-semibold text-lg w-8 text-center">1</span>
-                                    <button onclick="updateModalQuantity(1)" class="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-plus text-xs"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-3">
-                                <button id="modal-add-to-cart" onclick="addToCartFromModal()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-full font-semibold text-lg transition-colors">
-                                    <i class="fas fa-shopping-bag mr-2"></i>Ajouter au panier
-                                </button>
-                                <button onclick="buyNowFromModal()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-full font-semibold text-lg transition-colors">
-                                    <i class="fab fa-whatsapp mr-2"></i>Acheter maintenant
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Informations de livraison -->
-                        <div class="mt-6 bg-gray-50 p-4 rounded-xl">
-                            <h5 class="font-semibold mb-2">Informations de livraison</h5>
-                            <div class="space-y-1 text-sm text-gray-600">
-                                <div class="flex items-center">
-                                    <i class="fas fa-truck text-green-500 mr-2"></i>
-                                    <span>Livraison gratuite à Abidjan (commande > 20 000 FCFA)</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-clock text-blue-500 mr-2"></i>
-                                    <span>Livraison sous 24-48h à Abidjan</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-undo text-yellow-500 mr-2"></i>
-                                    <span>Retour gratuit sous 30 jours</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body>
+<header class="header">
+  <div class="container row">
+    <div class="logo">RedGreen.<i>boutik</i></div>
+    <div class="nav">
+      <div class="search"><input id="q" type="text" placeholder="Rechercher…"><span class="kbd">/</span></div>
+      <button id="btnCart" class="icon-btn" aria-label="Panier"><span>🛒</span><span id="cartBadge" class="badge" style="display:none">0</span></button>
+      <a id="btnWhats" class="icon-btn" href="#" title="Nous écrire sur WhatsApp">💬</a>
     </div>
+  </div>
+</header>
 
-    <!-- Section FAQ -->
-    <section id="faq" class="section-hidden py-16">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="text-center mb-12">
-                <h2 class="font-playfair text-4xl font-bold text-gray-800 mb-4">Questions Fréquentes</h2>
-                <p class="text-xl text-gray-600">Trouvez rapidement les réponses à vos questions</p>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Comment passer commande ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Vous pouvez passer commande directement via WhatsApp en cliquant sur les boutons "Ajouter au panier" puis "Finaliser la commande". Un message pré-rempli sera généré avec votre commande.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Quels sont les modes de paiement acceptés ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Nous acceptons les paiements par Mobile Money (Orange Money, MTN Money), virement bancaire et paiement à la livraison pour Abidjan.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Livrez-vous partout en Côte d'Ivoire ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Oui, nous livrons dans toute la Côte d'Ivoire. Livraison gratuite à Abidjan pour les commandes de plus de 20 000 FCFA. Frais de livraison variables selon la destination.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Vos produits sont-ils vraiment naturels ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Absolument ! Tous nos produits sont formulés avec des ingrédients naturels comme le karité, l'aloe vera, les huiles essentielles. Nous privilégions les ingrédients locaux de qualité.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Puis-je retourner un produit si je ne suis pas satisfaite ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Nous offrons une garantie satisfaction de 30 jours. Si vous n'êtes pas satisfaite, contactez-nous via WhatsApp pour organiser le retour et le remboursement.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                    <button class="faq-question w-full px-6 py-4 text-left font-semibold text-lg hover:bg-gray-50 flex justify-between items-center" onclick="toggleFAQ(this)">
-                        Combien de temps durent vos produits ?
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden px-6 pb-4">
-                        <p class="text-gray-600">Nos produits ont une durée de conservation de 12 à 24 mois selon le produit. La date d'expiration est indiquée sur chaque emballage. Conservez dans un endroit frais et sec.</p>
-                    </div>
-                </div>
-            </div>
+<section class="hero">
+  <div class="container wrap">
+    <div>
+      <h1>Mode féminine — Abidjan, Côte d’Ivoire</h1>
+      <p>Bienvenue chez <strong>RedGreen.boutik</strong> 👗 — nouveautés, ensembles, robes & accessoires. Livraison rapide à Abidjan. Paiement à la livraison possible.</p>
+      <div class="actions">
+        <a href="#boutique" class="btn primary">Voir la boutique</a>
+        <a id="btnAdmin" href="#admin" class="btn ghost">Espace Admin</a>
+      </div>
+      <div id="demoBanner" class="notice" style="display:none;margin-top:10px">Mode démo actif : configurez <strong>SCRIPT_URL</strong> & <strong>API_TOKEN</strong> pour connecter Google Sheets.</div>
+    </div>
+    <div class="banner" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section id="boutique" class="section">
+  <div class="container">
+    <div class="toolbar">
+      <span>Catégories :</span>
+      <div id="cats" class="tags"></div>
+      <select id="sort">
+        <option value="">Tri</option>
+        <option value="price-asc">Prix ↑</option>
+        <option value="price-desc">Prix ↓</option>
+        <option value="new">Nouveautés</option>
+      </select>
+    </div>
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="container">
+    <h2>À propos & contact</h2>
+    <p>RedGreen.boutik — Abidjan, Côte d’Ivoire. Suivez-nous :</p>
+    <p>
+      <a class="badge-sm" target="_blank" href="https://instagram.com/Red_Green.Boutik">Instagram</a>
+      <a class="badge-sm" target="_blank" href="https://tiktok.com/@RedGreen.boutik">TikTok</a>
+      <span class="badge-sm">Snapchat: RedGreenBoutik</span>
+      <a class="badge-sm" target="_blank" href="#">Facebook (à compléter)</a>
+    </p>
+    <p><a id="btnWhats2" class="btn primary" href="#">Discuter sur WhatsApp</a></p>
+    <iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps?q=Abidjan%2C%20C%C3%B4te%20d%E2%80%99Ivoire&output=embed"></iframe>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div>© <span id="year"></span> RedGreen.boutik — Tous droits réservés.</div>
+    <div style="margin-top:8px">
+      <a class="icon" target="_blank" href="https://instagram.com/Red_Green.Boutik">📷</a>
+      <a class="icon" target="_blank" href="https://tiktok.com/@RedGreen.boutik">🎵</a>
+      <a class="icon" href="#admin" id="adminLink" title="Admin">🔐</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Panier -->
+<aside id="cart" class="drawer" aria-hidden="true">
+  <header><strong>Panier</strong><button id="closeCart" class="btn ghost">Fermer</button></header>
+  <div class="content">
+    <div id="cartLines"></div>
+    <hr>
+    <div class="form-row">
+      <div>
+        <label>Nom complet</label>
+        <input id="cName" type="text" placeholder="Votre nom" required>
+      </div>
+      <div>
+        <label>Téléphone</label>
+        <input id="cPhone" type="text" placeholder="+225XXXXXXXXX" required>
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label>Adresse de livraison</label>
+      <textarea id="cAddr" rows="2" placeholder="Quartier, commune, repère…" required></textarea>
+    </div>
+    <input id="hp" type="text" style="position:absolute;left:-9999px" aria-hidden="true" tabindex="-1">
+    <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+      <div><strong>Total : <span id="cartTotal">0 FCFA</span></strong></div>
+      <div class="muted">(TVA incluse)</div>
+    </div>
+  </div>
+  <footer>
+    <button id="checkout" class="btn primary">Terminer la commande sur WhatsApp</button>
+    <button id="emptyCart" class="btn ghost">Vider le panier</button>
+  </footer>
+</aside>
+
+<!-- Modale produit -->
+<div id="productModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="panel">
+    <header><strong id="mTitle">Produit</strong><button id="mClose" class="btn ghost">Fermer</button></header>
+    <div class="body">
+      <div class="gallery">
+        <div class="thumbs" id="mThumbs"></div>
+        <div class="main" id="mMain"></div>
+      </div>
+      <div>
+        <div class="price" id="mPrice">—</div>
+        <p id="mDesc" class="muted"></p>
+        <div class="form-row">
+          <div>
+            <label>Taille</label>
+            <select id="mSize"></select>
+          </div>
+          <div>
+            <label>Couleur</label>
+            <select id="mColor"></select>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-pink-300 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">M</span>
-                        </div>
-                        <div>
-                            <h3 class="font-playfair text-xl font-bold">Mouna Cosmétique</h3>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-4">Révélez votre beauté naturelle avec nos cosmétiques premium conçus pour la femme africaine.</p>
-                    <div class="flex space-x-3">
-                        <a href="#" class="text-pink-400 hover:text-pink-300"><i class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-facebook text-xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-gray-300"><i class="fab fa-tiktok text-xl"></i></a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Navigation</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" onclick="showSection('accueil')" class="hover:text-white">Accueil</a></li>
-                        <li><a href="#" onclick="showSection('boutique')" class="hover:text-white">Boutique</a></li>
-                        <li><a href="#" onclick="showSection('apropos')" class="hover:text-white">À propos</a></li>
-                        <li><a href="#" onclick="showSection('contact')" class="hover:text-white">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Produits</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Soins du visage</a></li>
-                        <li><a href="#" class="hover:text-white">Soins du corps</a></li>
-                        <li><a href="#" class="hover:text-white">Nouveautés</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><i class="fas fa-map-marker-alt mr-2"></i>Cocody, Abidjan</li>
-                        <li><i class="fab fa-whatsapp mr-2"></i>+225 07 48 64 13 73</li>
-                        <li><i class="fas fa-envelope mr-2"></i>contact@mounacosmétique.ci</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 Mouna Cosmétique. Tous droits réservés. | 
-                   <a href="#" class="hover:text-white">Politique de confidentialité</a> | 
-                   <a href="#" class="hover:text-white">Mentions légales/ Design by ADS Consulting...+225 0748301616</a>
-                </p>
-            </div>
+        <div style="margin:10px 0">
+          <label>Quantité</label>
+          <div class="qty"><button id="mMinus">−</button><input id="mQty" type="number" min="1" value="1"><button id="mPlus">+</button></div>
         </div>
-    </footer>
+        <div class="tags" id="mFlags"></div>
+        <div class="actions"><button id="mAdd" class="btn primary">Ajouter au panier</button></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Bouton WhatsApp flottant -->
-    <a href="https://wa.me/+2250748641373?text=Bonjour%20Mouna%20Cosmétique%2C%20j%27aimerais%20en%20savoir%20plus%20sur%20vos%20produits" 
-       class="floating-whatsapp bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg">
-        <i class="fab fa-whatsapp text-2xl"></i>
-    </a>
+<!-- Admin (dans la même page) -->
+<section id="admin" class="section" style="display:none">
+  <div class="container">
+    <h2>Dashboard Admin</h2>
+    <div class="toolbar">
+      <button id="aRefresh" class="btn ghost">Rafraîchir depuis Sheets</button>
+      <button id="aExport" class="btn ghost">Exporter JSON</button>
+      <button id="aLogout" class="btn">Se déconnecter</button>
+      <span id="aStatus" class="muted"></span>
+    </div>
+    <div class="form-row">
+      <div>
+        <h3>Ajouter / Modifier</h3>
+        <div class="form-row">
+          <div><label>ID</label><input id="f_id" placeholder="(auto si vide)"></div>
+          <div><label>Nom*</label><input id="f_nom" required></div>
+        </div>
+        <div class="form-row">
+          <div><label>Prix (FCFA)*</label><input id="f_prix" type="number" required></div>
+          <div><label>Catégorie*</label><input id="f_cat" placeholder="Robes, Ensembles…"></div>
+        </div>
+        <div><label>Description*</label><textarea id="f_desc" rows="2" required></textarea></div>
+        <div><label>Images (URLs séparées par ,)*</label><textarea id="f_imgs" rows="2" required placeholder="https://...jpg, https://...jpg"></textarea></div>
+        <div class="form-row">
+          <div><label>Vidéo (URL)</label><input id="f_vid"></div>
+          <div><label>Stock</label><input id="f_stock" type="number" value="10"></div>
+        </div>
+        <div class="form-row">
+          <div><label>Tailles (CSV)</label><input id="f_sizes" placeholder="S,M,L,XL"></div>
+          <div><label>Couleurs (CSV)</label><input id="f_colors" placeholder="Rouge,Bleu,Noir"></div>
+        </div>
+        <div style="margin:8px 0"><label><input id="f_pub" type="checkbox" checked> Publier</label></div>
+        <div class="actions">
+          <button id="aCreate" class="btn primary">Créer</button>
+          <button id="aUpdate" class="btn">Mettre à jour</button>
+          <button id="aDelete" class="btn ghost">Supprimer</button>
+        </div>
+      </div>
+      <div>
+        <h3>Produits</h3>
+        <input id="aSearch" type="text" placeholder="Rechercher…">
+        <div style="max-height:420px;overflow:auto;margin-top:8px">
+          <table class="table" id="aTable">
+            <thead><tr><th>ID</th><th>Nom</th><th>Prix</th><th>Cat</th><th>Pub</th><th>Stock</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Données des produits avec plusieurs images
-        const products = [
-            {
-                id: 1,
-                name: "Gamme White Snow",
-                price: 80000,
-                category: "visage",
-                description: "Cette gamme est adaptée aux personnes déjà claires de peau qui veulent blanchir Cette gamme est blanchissante",
-                images: [
-                    "https://i.postimg.cc/5NLwpvY4/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/fW0XTXvc/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/0ytrC2f5/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/PxnHWBBr/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/fWHFZGBt/Screenshot-. -Whats-App.jpg"
-                ],
-                videos: [
-                    "https://www.youtube.com/embed/vVZYin634Ew?autoplay=1&loop=1&playlist=vVZYin634Ew",
-                    "https://www.youtube.com/embed/qMn_cRYDnYs?autoplay=1&loop=1&playlist=qMn_cRYDnYs",
-                    "https://www.youtube.com/embed/J00cniQBkVc?autoplay=1&loop=1&playlist=J00cniQBkVc"
-                ]
-            },
-            {
-                id: 2,
-                name: "Gamme Gold perfection",
-                price: 60000,
-                category: "visage",
-                description: "Cette gamme est adaptée aux personnes qui veulent un teint clair effet naturel Composé de : gommage, lait, savon, gel douche, kit visage, huile",
-                images: [
-                    "https://i.postimg.cc/QNYHZM72/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/CMnzYg4d/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/P5yqKrdV/Screenshot-. -Whats-App.jpg"
-                ],
-                video: "https://www.youtube.com/embed/XXlh8fY5yH0?autoplay=1&loop=1&playlist=XXlh8fY5yH0"
-            },
-            {
-                id: 3,
-                name: "Gamme complète chancelle",
-                price: 50000,
-                category: "visage",
-                description: "La gamme chancelle est élaborée spécialement pour traiter les imperfections de la peau. Adaptée à tous les types de peau",
-                images: [
-                    "https://i.postimg.cc/t4XfKGyz/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/rFTY42dL/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/dtQjvskD/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/HnYXpzLF/Screenshot-. -Whats-App.jpg"
-                ],
-                videos: [
-                    "https://www.youtube.com/embed/ohvw6Tm1woM?autoplay=1&loop=1&playlist=ohvw6Tm1woM",
-                    "https://www.youtube.com/embed/KcCvHth-CgA?autoplay=1&loop=1&playlist=KcCvHth-CgA",
-                    "https://www.youtube.com/embed/KcCvHth-CgA?autoplay=1&loop=1&playlist=KcCvHth-CgA"
-                ]
-            },
-            {
-                id: 4,
-                name: "Kit visage réparateur",
-                price: 15000,
-                category: "visage",
-                description: "Élaboré spécialement pour réparer la peau du visage quelque soit vos problèmes au visage cette gamme miracle vous débarrassera de toutes vos imperfections",
-                images: [
-                    "https://i.postimg.cc/63Yq90R2/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/BQd6Qt8g/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/T2LTm3zJ/Screenshot-. -Whats-App.jpg"
-                ]
-            },
-            {
-                id: 5,
-                name: "Kit kinto",
-                price: 10000,
-                category: "corps",
-                description: "Ce kit permet d'hydrater et de redonner de l'éclat aux parties sombres comme les doigts, les coudes, les orteils et même l'entrejambe noir",
-                images: [
-                    "https://i.postimg.cc/QNKJd40Z/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/LsMrj0Yc/Whats-App-Image-2025-09-01-at-10-11-46.jpg",
-                    "https://i.postimg.cc/3NwYMb3y/Whats-App-Image-2025-09-01-at-10-11-44.jpg"
-                ]
-            },
-            {
-                id: 6,
-                name: "Gommage White Snow",
-                price: 10000,
-                category: "visage",
-                description: "Élaboré spécifiquement pour l'éclaircissement de la peau. Ce gommage vous redonne un éclat total",
-                images: [
-                    "https://i.postimg.cc/sfL5TyWS/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/LsMrj0Yc/Whats-App-Image-2025-09-01-at-10-11-46.jpg",
-                    "https://i.postimg.cc/J7k73SGn/Whats-App-Image-2025-09-01-at-10-11-47.jpg",
-                    "https://i.postimg.cc/WpCd725Q/Whats-App-Image-2025-09-01-at-10-11-42.jpg"
-                ],
-                video: "https://www.youtube.com/embed/xJVPgxDXX6A?autoplay=1&loop=1&playlist=xJVPgxDXX6A"
-            },
-            {
-                id: 7,
-                name: "Savon et gel douche Gold Perfection",
-                price: 20000,
-                category: "corps",
-                description: "Un duo magique : le savon et le gel douche Gold Perfection sont des pépites pour les personnes voulant une peau claire et satinée sans imperfection. Pendant son utilisation, vous n'êtes pas obligé d'utiliser un lait éclaircissant.",
-                images: [
-                    "https://i.postimg.cc/2jM2WLKB/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/LsxV8JP5/Screenshot-. -Whats-App.jpg"
-                ]
-            },
-            {
-                id: 8,
-                name: "Kit visage blanchissant",
-                price: 15000,
-                category: "visage",
-                description: "Un kit qui illumine, éclaircit et clarifie la peau de votre visage en moins d'une semaine chrono",
-                images: [
-                    "https://i.postimg.cc/XNFLTpg3/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/mkNQh1dH/Screenshot-. -Whats-App.jpg"
-                ]
-            },
-            {
-                id: 9,
-                name: "Savon de visage (la boule magique)",
-                price: 5000,
-                category: "visage",
-                description: "Adapté à tous les types de peau et de teint, ce savon miracle traite toutes les imperfections du visage. Élimine les boutons, le sébum, les rides,Ils vous procurent un effet peau de bébé",
-                images: [
-                    "https://i.postimg.cc/HsRS5Z6m/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/Y046CkKW/Screenshot-. -Whats-App.jpg"
-                ]
-            },
-            {
-                id: 10,
-                name: "Savon et gel douche chancelle",
-                price: 20000,
-                category: "corps",
-                description: "Le savon et la douche chancelle sont adaptés aux personnes aux peaux sensibles et qui ont beaucoup d'imperfections.Allié indéfectible pour traiter toutes vos imperfections, ils agissent de manière naturelle et efficace sans décaper la peau",
-                images: [
-                    "https://i.postimg.cc/yY5Vk1Gf/Screenshot-. -Whats-App.jpg",
-                    "https://i.postimg.cc/XJmbXxHr/Screenshot-. -Whats-App.jpg"
-                ]
-            },
-            {
-                id: 11,
-                name: "Savon White Snow",
-                price: 15000,
-                category: "corps",
-                description: "Élaboré spécialement pour les personnes qui ont déjà un teint clair et qui veulent avoir une à deux teintes de plus. Nb : n'est pas adapté aux visages",
-                images: [
-                    "https://i.postimg.cc/Ls7SYKJp/Screenshot-. -Whats-App.jpg"
-                ]
-            }
-        ];
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-        // Panier
-        let cart = [];
+<script>
+/* =========================
+   CONFIG & CONSTANTS
+========================= */
+const CONFIG={
+  BUSINESS_NAME:"RedGreen.boutik",
+  LOCATION:"Abidjan, Côte d’Ivoire",
+  WHATSAPP_PHONE:"2250712623814", // sans +
+  SCRIPT_URL:"https://script.google.com/macros/s/AKfycbzUpn2It-Mn9F4ILmnWEKbfYAvX_07Dy9nREnPChsFFQxAjb5JbLy-MRFudrq7XqeBF/exec",
+  API_TOKEN:"rgb-2025-long-secret",
+  ADMIN_USERNAME:"ADMIN",
+  ADMIN_PASSWORD:"RedGreenB2025",
+  CACHE_TTL_MS: 5*60*1000
+};
+const LS_KEYS={CART:"rg.cart", CACHE:"rg.cache.products", SESSION:"rg.session"};
 
-        // Navigation
-        function showSection(sectionName) {
-            // Cacher toutes les sections
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.remove('section-active');
-                section.classList.add('section-hidden');
-            });
-            
-            // Afficher la section demandée
-            const targetSection = document.getElementById(sectionName);
-            if (targetSection) {
-                targetSection.classList.remove('section-hidden');
-                targetSection.classList.add('section-active');
-            }
-            
-            // Mettre à jour la navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Si c'est la boutique, générer les produits
-            if (sectionName === 'boutique') {
-                generateProducts();
-            }
-            
-            // Si c'est le panier, mettre à jour l'affichage
-            if (sectionName === 'panier') {
-                updateCartDisplay();
-            }
-            
-            // Scroll vers le haut
-            window.scrollTo(0, 0);
-        }
+/* =========================
+   UTILS
+========================= */
+const $=sel=>document.querySelector(sel);
+const $$=sel=>Array.from(document.querySelectorAll(sel));
+const nowISO=()=>new Date().toISOString();
+const nbsp = s => (s+"").replace(/\B(?=(\d{3})+(?!\d))/g," "); // espace insécable
+const formatXOF=v=>`${nbsp(Math.round(Number(v||0)))} FCFA`;
+const parseCSV=s=> (s? s.split(",").map(x=>x.trim()).filter(Boolean):[]);
+const joinCSV=arr=> (arr||[]).filter(Boolean).join(","); 
+const genId=()=>`prd_${Date.now()}_${Math.random().toString(36).slice(2,6)}`;
+const phoneCI = s => {
+  const digits=(s||"").replace(/\D/g,"");
+  if(digits.startsWith("225")) return "+225"+digits.slice(3);
+  if(digits.length===10 && digits.startsWith("0")) return "+225"+digits.slice(1);
+  if(digits.length===8) return "+225"+digits;
+  if(digits.length===12 && digits.startsWith("225")) return "+225"+digits.slice(3);
+  return "+225"+digits;
+};
+const showToast=(msg)=>{const t=$("#toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2200);};
+const isDemo=()=>!CONFIG.SCRIPT_URL||!CONFIG.API_TOKEN;
 
-        // Générer les produits avec carrousel
-        function generateProducts(filter = 'tous') {
-            const productsGrid = document.getElementById('products-grid');
-            const filteredProducts = filter === 'tous' ? products : products.filter(p => p.category === filter);
-            
-            productsGrid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card hover-lift cursor-pointer" onclick="openProductModal(${product.id})">
-                    <div class="h-48 sm:h-56 md:h-64 product-carousel">
-                        <div class="carousel-container" id="carousel-${product.id}">
-                            ${product.images.map(image => `
-                                <div class="carousel-slide">
-                                    <img src="${image}" alt="${product.name}" class="w-full h-full object-cover rounded-t-2xl" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full bg-gradient-to-br from-pink-100 to-yellow-100 rounded-t-2xl\\'><div class=\\'text-center\\'><div class=\\'text-4xl md:text-5xl mb-2\\'>🧴</div><p class=\\'font-semibold text-gray-700 text-sm md:text-base\\'>${product.name}</p></div></div>';">
-                                </div>
-                            `).join('')}
-                            ${product.video ? `
-                                <div class="carousel-slide">
-                                    <iframe src="${product.video}" class="w-full h-full rounded-t-2xl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div>
-                            ` : ''}
-                            ${product.videos ? product.videos.map(video => `
-                                <div class="carousel-slide">
-                                    <iframe src="${video}" class="w-full h-full rounded-t-2xl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div>
-                            `).join('') : ''}
-                        </div>
-                        <div class="carousel-indicators">
-                            ${product.images.map((_, index) => `
-                                <div class="carousel-dot ${index === 0 ? 'active' : ''}" data-product="${product.id}" data-slide="${index}"></div>
-                            `).join('')}
-                            ${product.video ? `
-                                <div class="carousel-dot" data-product="${product.id}" data-slide="${product.images.length}">
-                                    <i class="fas fa-play text-xs"></i>
-                                </div>
-                            ` : ''}
-                            ${product.videos ? product.videos.map((_, index) => `
-                                <div class="carousel-dot" data-product="${product.id}" data-slide="${product.images.length + (product.video ? 1 : 0) + index}">
-                                    <i class="fas fa-play text-xs"></i>
-                                </div>
-                            `).join('') : ''}
-                        </div>
-                        
-                        <!-- Overlay pour indiquer que c'est cliquable -->
-                        <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
-                            <div class="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                                <span class="text-gray-800 font-semibold text-sm">👁️ Voir détails</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-4 md:p-6">
-                        <h4 class="font-playfair text-lg md:text-xl font-semibold mb-2">${product.name}</h4>
-                        <p class="text-gray-600 text-sm md:text-base mb-3 md:mb-4 line-clamp-3">${product.description}</p>
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                            <span class="text-lg md:text-2xl font-bold text-yellow-600">${product.price.toLocaleString()} FCFA</span>
-                            <button onclick="event.stopPropagation(); addToCart('${product.name}', ${product.price})" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 md:px-4 py-2 rounded-full text-sm md:text-base font-semibold w-full sm:w-auto">
-                                Ajouter
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Initialiser les carrousels après génération
-            setTimeout(() => {
-                initializeCarousels();
-            }, 100);
-        }
+/* =========================
+   API CLIENT (Apps Script)
+========================= */
+const api={
+  async list(){
+    if(isDemo()) return demoData().filter(p=>p.published);
+    const url=new URL(CONFIG.SCRIPT_URL);
+    url.searchParams.set("action","list");
+    const r=await fetch(url,{headers:{"X-API-KEY":CONFIG.API_TOKEN}});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API");
+    return j.data;
+  },
+  async adminList(){
+    if(isDemo()) return demoData();
+    const url=new URL(CONFIG.SCRIPT_URL);
+    url.searchParams.set("action","admin_list");
+    const r=await fetch(url,{headers:{"X-API-KEY":CONFIG.API_TOKEN}});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API");
+    return j.data;
+  },
+  async create(prod){
+    if(isDemo()) {showToast("Démo: création locale"); return prod;}
+    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"create",produit:prod})});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+  },
+  async update(prod){
+    if(isDemo()) {showToast("Démo: mise à jour locale"); return prod;}
+    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"update",produit:prod})});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+  },
+  async del(id){
+    if(isDemo()) {showToast("Démo: suppression locale"); return true;}
+    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"delete",id})});
+    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+  }
+};
 
-        // Filtrer les produits
-        function filterProducts(category) {
-            // Mettre à jour les boutons de catégorie
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-yellow-500', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            
-            event.target.classList.remove('bg-gray-200', 'text-gray-700');
-            event.target.classList.add('active', 'bg-yellow-500', 'text-white');
-            
-            generateProducts(category);
-        }
+/* =========================
+   CACHE PRODUITS
+========================= */
+const cache={
+  get(){
+    try{
+      const raw=localStorage.getItem(LS_KEYS.CACHE); if(!raw) return null;
+      const obj=JSON.parse(raw); if(Date.now()-obj.ts>CONFIG.CACHE_TTL_MS) return null;
+      return obj.data;
+    }catch{ return null; }
+  },
+  set(data){
+    localStorage.setItem(LS_KEYS.CACHE, JSON.stringify({ts:Date.now(),data}));
+  },
+  clear(){ localStorage.removeItem(LS_KEYS.CACHE); }
+};
 
-        // Ajouter au panier
-        function addToCart(productName, price) {
-            const existingItem = cart.find(item => item.name === productName);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    name: productName,
-                    price: price,
-                    quantity: 1
-                });
-            }
-            
-            updateCartCount();
-            
-            // Animation de confirmation
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Ajouté !';
-            button.classList.add('bg-green-500');
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.remove('bg-green-500');
-            }, 1000);
-        }
+/* =========================
+   BOUTIQUE RENDERING
+========================= */
+let ALL_PRODUCTS=[];
+function productImage(p){ return (parseCSV(p.images_csv)[0] || "https://images.unsplash.com/photo-1520975693416-35a7d069f78f?q=80&w=800&auto=format&fit=crop"); }
 
-        // Mettre à jour le compteur du panier
-        function updateCartCount() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').textContent = totalItems;
-        }
+function renderProducts(list){
+  const grid=$("#grid"); grid.innerHTML="";
+  if(!list.length){ grid.innerHTML="<p class='muted'>Aucun produit.</p>"; return; }
+  for(const p of list){
+    const card=document.createElement("div"); card.className="card";
+    card.innerHTML=`
+      <img loading="lazy" alt="${escapeHtml(p.nom)}" src="${escapeAttr(productImage(p))}">
+      <div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>${escapeHtml(p.nom)}</strong>
+          ${Number(p.stock||0)<=0?'<span class="badge-sm">Rupture</span>':''}
+        </div>
+        <div class="price">${formatXOF(p.prix)}</div>
+        <div class="muted">${escapeHtml(p.categorie||'—')}</div>
+        <div class="actions"><button class="btn" data-id="${p.id}">Voir</button></div>
+      </div>`;
+    grid.appendChild(card);
+  }
+  grid.querySelectorAll("button[data-id]").forEach(b=>b.addEventListener("click",()=>openProduct(b.dataset.id)));
+}
 
-        // Mettre à jour l'affichage du panier
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cart-items');
-            const cartEmpty = document.getElementById('cart-empty');
-            const cartSummary = document.getElementById('cart-summary');
-            const cartTotal = document.getElementById('cart-total');
-            
-            if (cart.length === 0) {
-                cartEmpty.style.display = 'block';
-                cartSummary.classList.add('hidden');
-                cartItems.innerHTML = '';
-            } else {
-                cartEmpty.style.display = 'none';
-                cartSummary.classList.remove('hidden');
-                
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item bg-white p-4 rounded-xl shadow-sm flex items-center justify-between">
-                        <div class="flex-1">
-                            <h4 class="font-semibold">${item.name}</h4>
-                            <p class="text-gray-600">${item.price.toLocaleString()} FCFA</p>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <button onclick="updateQuantity('${item.name}', -1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                                <i class="fas fa-minus text-xs"></i>
-                            </button>
-                            <span class="font-semibold">${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.name}', 1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                                <i class="fas fa-plus text-xs"></i>
-                            </button>
-                            <button onclick="removeFromCart('${item.name}')" class="text-red-500 hover:text-red-700 ml-4">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-                
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                cartTotal.textContent = `${total.toLocaleString()} FCFA`;
-            }
-        }
+function categoriesFrom(list){
+  return Array.from(new Set(list.map(x=>x.categorie).filter(Boolean))).sort();
+}
+function renderCategories(list){
+  const wrap=$("#cats"); wrap.innerHTML="";
+  const add=(name,val)=>{const a=document.createElement("a");a.href="#";a.className="chip";a.textContent=name;a.dataset.cat=val||"";a.addEventListener("click",(e)=>{e.preventDefault();filterBy(val)});wrap.appendChild(a);};
+  add("Tout","");
+  categoriesFrom(list).forEach(c=>add(c,c));
+}
+function filterBy(cat){
+  const q=$("#q").value.toLowerCase().trim();
+  let list=[...ALL_PRODUCTS].filter(p=>p.published);
+  if(cat) list=list.filter(p=>(p.categorie||"").toLowerCase()===cat.toLowerCase());
+  if(q) list=list.filter(p=>(p.nom+" "+(p.description||"")).toLowerCase().includes(q));
+  const sort=$("#sort").value;
+  if(sort==="price-asc") list.sort((a,b)=>a.prix-b.prix);
+  if(sort==="price-desc") list.sort((a,b)=>b.prix-a.prix);
+  if(sort==="new") list.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+  renderProducts(list);
+}
 
-        // Mettre à jour la quantité
-        function updateQuantity(productName, change) {
-            const item = cart.find(item => item.name === productName);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productName);
-                } else {
-                    updateCartDisplay();
-                    updateCartCount();
-                }
-            }
-        }
+/* =========================
+   MODALE PRODUIT
+========================= */
+let CURRENT=null;
+function openProduct(id){
+  const p=ALL_PRODUCTS.find(x=>x.id===id); if(!p) return;
+  CURRENT=p;
+  $("#mTitle").textContent=p.nom;
+  $("#mPrice").textContent=formatXOF(p.prix);
+  $("#mDesc").textContent=p.description||"";
+  const imgs=parseCSV(p.images_csv);
+  const thumbs=$("#mThumbs"); thumbs.innerHTML="";
+  const main=$("#mMain"); main.innerHTML="";
+  const show=(src,isVideo=false)=>{
+    main.innerHTML=isVideo?`<video src="${escapeAttr(src)}" controls></video>`:`<img alt="${escapeHtml(p.nom)}" src="${escapeAttr(src)}">`;
+  };
+  imgs.forEach((src,i)=>{
+    const im=document.createElement("img"); im.src=src; im.alt=""; if(i===0) im.classList.add("active");
+    im.addEventListener("click",()=>{thumbs.querySelectorAll("img").forEach(t=>t.classList.remove("active"));im.classList.add("active");show(src,false);});
+    thumbs.appendChild(im);
+  });
+  if(p.video_url){ const v=document.createElement("img"); v.src=imgs[0]||"https://via.placeholder.com/84x84?text=Vid"; v.alt=""; v.title="Vidéo"; v.addEventListener("click",()=>show(p.video_url,true)); thumbs.appendChild(v); }
+  show(imgs[0]||p.video_url||"");
+  // tailles/couleurs
+  const $size=$("#mSize"), $color=$("#mColor");
+  $size.innerHTML=""; $color.innerHTML="";
+  const sizes=parseCSV(p.tailles_csv); const colors=parseCSV(p.couleurs_csv);
+  $size.appendChild(new Option(sizes[0]||"Taille unique",sizes[0]||"TU"));
+  sizes.slice(1).forEach(s=>$size.appendChild(new Option(s,s)));
+  $color.appendChild(new Option(colors[0]||"—",colors[0]||""));
+  colors.slice(1).forEach(c=>$color.appendChild(new Option(c,c)));
+  $("#mQty").value=1;
+  const flags=$("#mFlags"); flags.innerHTML="";
+  if(Number(p.stock||0)<=0) flags.innerHTML+='<span class="badge-sm">Rupture</span>';
+  $("#productModal").classList.add("open");
+}
+$("#mClose").onclick=()=>$("#productModal").classList.remove("open");
+$("#mMinus").onclick=()=>$("#mQty").value=Math.max(1, (+$("#mQty").value||1)-1);
+$("#mPlus").onclick=()=>$("#mQty").value=(+$("#mQty").value||1)+1;
+$("#mAdd").onclick=()=>{
+  if(!CURRENT) return;
+  addToCart({id:CURRENT.id,nom:CURRENT.nom,prix:+CURRENT.prix,qty:+$("#mQty").value||1, variante:{taille:$("#mSize").value||"",couleur:$("#mColor").value||""}, img:productImage(CURRENT)});
+  $("#productModal").classList.remove("open");
+  showToast("Ajouté au panier");
+};
 
-        // Supprimer du panier
-        function removeFromCart(productName) {
-            cart = cart.filter(item => item.name !== productName);
-            updateCartDisplay();
-            updateCartCount();
-        }
+/* =========================
+   PANIER
+========================= */
+const cartStore={
+  get(){ try{ return JSON.parse(localStorage.getItem(LS_KEYS.CART)||"[]"); }catch{return []}},
+  set(items){ localStorage.setItem(LS_KEYS.CART, JSON.stringify(items)); },
+  clear(){ localStorage.removeItem(LS_KEYS.CART); }
+};
+function addToCart(line){
+  const items=cartStore.get();
+  const key=(l)=>`${l.id}|${l.variante?.taille||""}|${l.variante?.couleur||""}`;
+  const i=items.findIndex(x=>key(x)===key(line));
+  if(i>=0) items[i].qty += line.qty; else items.push(line);
+  cartStore.set(items); renderCart();
+}
+function removeFromCart(key){
+  const items=cartStore.get().filter((_,i)=>i!==key); cartStore.set(items); renderCart();
+}
+function changeQty(key,delta){
+  const items=cartStore.get(); items[key].qty=Math.max(1,(items[key].qty||1)+delta); cartStore.set(items); renderCart();
+}
+function cartTotal(){
+  return cartStore.get().reduce((s,l)=>s+(+l.prix||0)*(+l.qty||1),0);
+}
+function renderCart(){
+  const items=cartStore.get(); const box=$("#cartLines"); box.innerHTML="";
+  items.forEach((l,i)=>{
+    const div=document.createElement("div"); div.className="cart-line";
+    div.innerHTML=`
+      <img alt="" src="${escapeAttr(l.img||'')}">
+      <div><strong>${escapeHtml(l.nom)}</strong><div class="muted">${escapeHtml(l.variante?.taille||'')} ${escapeHtml(l.variante?.couleur||'')}</div><div>${formatXOF(l.prix)}</div></div>
+      <div>
+        <div class="qty"><button onclick="changeQty(${i},-1)">−</button><input value="${l.qty}" readonly><button onclick="changeQty(${i},1)">+</button></div>
+        <div><a href="#" onclick="removeFromCart(${i});return false;">Supprimer</a></div>
+      </div>`;
+    box.appendChild(div);
+  });
+  $("#cartBadge").style.display=items.length?"inline-block":"none";
+  $("#cartBadge").textContent=items.reduce((s,l)=>s+l.qty,0);
+  $("#cartTotal").textContent=formatXOF(cartTotal());
+}
+$("#btnCart").onclick=()=>{$("#cart").classList.add("open");$("#cart").setAttribute("aria-hidden","false");};
+$("#closeCart").onclick=()=>{$("#cart").classList.remove("open");$("#cart").setAttribute("aria-hidden","true");};
+$("#emptyCart").onclick=()=>{cartStore.clear(); renderCart();};
+$("#checkout").onclick=()=>{
+  if($("#hp").value){showToast("Anti-spam activé");return;}
+  const items=cartStore.get(); if(!items.length) return showToast("Panier vide");
+  const name=$("#cName").value.trim(), phone=$("#cPhone").value.trim(), addr=$("#cAddr").value.trim();
+  if(!name||!phone||!addr) return showToast("Veuillez remplir Nom, Téléphone, Adresse");
+  const phoneNorm=phoneCI(phone);
+  const lines=items.map(l=>`• ${l.nom} x${l.qty} (${l.variante?.taille||'-'}/${l.variante?.couleur||'-'}) — ${l.prix} FCFA`).join("\n");
+  const total=cartTotal();
+  const msg=`Bonjour ${CONFIG.BUSINESS_NAME} 👗,
+Nouvelle commande :
+- Produits :
+${lines}
+Total : ${total} FCFA
 
-        // Nouvelle fonction pour finaliser la commande avec les informations client
-        function finalizeOrderWithInfo() {
-            if (cart.length === 0) {
-                alert('Votre panier est vide !');
-                return;
-            }
-            
-            // Récupérer les informations du formulaire
-            const customerName = document.getElementById('customer-name').value.trim();
-            const customerPhone = document.getElementById('customer-phone').value.trim();
-            const customerAddress = document.getElementById('customer-address').value.trim();
-            
-            // Vérifier que tous les champs obligatoires sont remplis
-            if (!customerName || !customerPhone || !customerAddress) {
-                alert('Veuillez remplir tous les champs obligatoires (nom, téléphone et adresse).');
-                return;
-            }
-            
-            // Récupérer les options sélectionnées
-            const deliveryMode = document.querySelector('input[name="delivery-mode"]:checked').value;
-            const paymentMode = document.querySelector('input[name="payment-mode"]:checked').value;
-            
-            // Traduire les modes en français
-            const deliveryModeText = deliveryMode === 'domicile' ? '🚚 Livraison à domicile' : '🏪 Retrait au showroom (Cocody)';
-            const paymentModeText = {
-                'mobile-money': '📱 Mobile Money (Orange/MTN)',
-                'cash-delivery': '💵 Paiement à la livraison',
-                'bank-transfer': '🏦 Virement bancaire'
-            }[paymentMode];
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            // Créer le détail de chaque produit avec formatage correct
-            let orderDetails = "📋 DÉTAIL DE LA COMMANDE:%0A%0A";
-            cart.forEach(item => {
-                const subtotal = item.price * item.quantity;
-                orderDetails += `• ${item.name}%0A`;
-                orderDetails += `  Quantité: ${item.quantity}%0A`;
-                orderDetails += `  Prix unitaire: ${item.price.toLocaleString()} FCFA%0A`;
-                orderDetails += `  Sous-total: ${subtotal.toLocaleString()} FCFA%0A%0A`;
-            });
-            
-            // Construire le message complet avec les informations client
-            const message = `🛍️ NOUVELLE COMMANDE MOUNA COSMÉTIQUE%0A%0A` +
-                          `${orderDetails}` +
-                          `💰 TOTAL: ${total.toLocaleString()} FCFA%0A%0A` +
-                          `👤 INFORMATIONS CLIENT:%0A` +
-                          `Nom complet: ${encodeURIComponent(customerName)}%0A` +
-                          `Téléphone: ${encodeURIComponent(customerPhone)}%0A` +
-                          `Adresse de livraison: ${encodeURIComponent(customerAddress)}%0A%0A` +
-                          `📦 MODE DE LIVRAISON:%0A` +
-                          `${encodeURIComponent(deliveryModeText)}%0A%0A` +
-                          `💳 MODE DE PAIEMENT:%0A` +
-                          `${encodeURIComponent(paymentModeText)}%0A%0A` +
-                          `✅ Commande confirmée et prête à être traitée ! 😊%0A%0A` +
-                          `Merci de me confirmer la réception de cette commande.`;
-            
-            // URL WhatsApp avec message pré-encodé
-            const whatsappUrl = `https://wa.me/+2250748641373?text=${message}`;
-            
-            // Ouvrir WhatsApp
-            window.open(whatsappUrl, '_blank');
-            
-            // Vider le panier et réinitialiser le formulaire après envoi
-            cart = [];
-            updateCartCount();
-            updateCartDisplay();
-            document.getElementById('checkout-form').reset();
-            
-            // Message de confirmation
-            alert('Votre commande a été envoyée via WhatsApp ! Merci pour votre confiance. 🎉');
-        }
-        
-        // Ancienne fonction pour compatibilité (si utilisée ailleurs)
-        function finalizeOrder() {
-            finalizeOrderWithInfo();
-        }
+Client :
+• Nom : ${name}
+• Tél : ${phoneNorm}
+• Adresse : ${addr}
+`;
+  const url=`https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
+  window.open(url,"_blank");
+};
 
-        // FAQ Toggle
-        function toggleFAQ(button) {
-            const answer = button.nextElementSibling;
-            const icon = button.querySelector('i');
-            
-            if (answer.classList.contains('hidden')) {
-                answer.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                answer.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
+/* =========================
+   ADMIN AUTH & UI
+========================= */
+function isAuthed(){ try{ return JSON.parse(sessionStorage.getItem(LS_KEYS.SESSION)||"{}").ok; }catch{return false;}}
+function requireAuth(){
+  if(isAuthed()) return true;
+  const u=prompt("Identifiant ADMIN ?","ADMIN"); if(u===null) return false;
+  const p=prompt("Mot de passe ?",""); if(p===null) return false;
+  if(u===CONFIG.ADMIN_USERNAME && p===CONFIG.ADMIN_PASSWORD){ sessionStorage.setItem(LS_KEYS.SESSION, JSON.stringify({ok:true,at:Date.now()})); showToast("Connecté"); return true; }
+  alert("Accès refusé"); return false;
+}
+function ensureAdmin(){
+  if(location.hash==="#admin"){
+    if(!requireAuth()){ location.hash="#"; return; }
+    $("#admin").style.display="block"; loadAdmin();
+  } else $("#admin").style.display="none";
+}
+window.addEventListener("hashchange", ensureAdmin);
 
-        // Formulaire de contact
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const name = formData.get('name') || this.querySelector('input[type="text"]').value;
-            const email = formData.get('email') || this.querySelector('input[type="email"]').value;
-            const phone = formData.get('phone') || this.querySelector('input[type="tel"]').value;
-            const message = formData.get('message') || this.querySelector('textarea').value;
-            
-            // Encoder manuellement pour WhatsApp
-            const whatsappMessage = `Bonjour%20Mouna%20Cosmétique%2C%0A%0ANom%3A%20${encodeURIComponent(name)}%0AEmail%3A%20${encodeURIComponent(email)}%0ATéléphone%3A%20${encodeURIComponent(phone)}%0A%0AMessage%3A%20${encodeURIComponent(message)}`;
-            const whatsappUrl = `https://wa.me/+2250748641373?text=${whatsappMessage}`;
-            
-            window.open(whatsappUrl, '_blank');
-            
-            // Réinitialiser le formulaire
-            this.reset();
-            alert('Votre message va être envoyé via WhatsApp !');
-        });
+/* Admin rendering */
+let ADMIN_LIST=[];
+async function loadAdmin(){
+  $("#aStatus").textContent="Chargement…";
+  try{
+    ADMIN_LIST=isDemo()?demoData():await api.adminList();
+    drawAdminTable(ADMIN_LIST);
+    $("#aStatus").textContent=`${ADMIN_LIST.length} articles`;
+  }catch(e){ $("#aStatus").textContent="Erreur : "+e.message; }
+}
+function drawAdminTable(rows){
+  const q=$("#aSearch").value.toLowerCase().trim();
+  const tb=$("#aTable tbody"); tb.innerHTML="";
+  rows.filter(r=>!q || (r.nom+" "+(r.categorie||"")).toLowerCase().includes(q))
+      .forEach(r=>{
+        const tr=document.createElement("tr");
+        tr.innerHTML=`<td>${escapeHtml(r.id)}</td>
+          <td>${escapeHtml(r.nom)}</td>
+          <td>${formatXOF(r.prix)}</td>
+          <td>${escapeHtml(r.categorie||'')}</td>
+          <td><input type="checkbox" ${r.published?'checked':''} data-id="${r.id}" class="switch"></td>
+          <td>${Number(r.stock||0)}</td>
+          <td><a href="#" data-edit="${r.id}">Éditer</a></td>`;
+        tb.appendChild(tr);
+      });
+  tb.querySelectorAll('input.switch').forEach(sw=>{
+    sw.addEventListener("change", async ()=>{
+      const row=ADMIN_LIST.find(x=>x.id===sw.dataset.id); if(!row) return;
+      row.published=sw.checked; row.updated_at=nowISO();
+      try{ await api.update(row); cache.clear(); showToast("Publié modifié"); }catch(e){ alert(e.message); sw.checked=!sw.checked; }
+    });
+  });
+  tb.querySelectorAll('a[data-edit]').forEach(a=>{
+    a.addEventListener("click",(e)=>{
+      e.preventDefault();
+      const row=ADMIN_LIST.find(x=>x.id===a.dataset.edit); if(!row) return;
+      fillForm(row);
+    });
+  });
+}
+function formData(){
+  return {
+    id: $("#f_id").value.trim()||genId(),
+    nom: $("#f_nom").value.trim(),
+    prix: Number($("#f_prix").value||0),
+    description: $("#f_desc").value.trim(),
+    categorie: $("#f_cat").value.trim(),
+    images_csv: $("#f_imgs").value.trim(),
+    video_url: $("#f_vid").value.trim(),
+    tailles_csv: $("#f_sizes").value.trim(),
+    couleurs_csv: $("#f_colors").value.trim(),
+    stock: Number($("#f_stock").value||0),
+    published: $("#f_pub").checked,
+    created_at: $("#f_id").value? undefined : nowISO(),
+    updated_at: nowISO()
+  };
+}
+function fillForm(p){
+  $("#f_id").value=p.id||"";
+  $("#f_nom").value=p.nom||"";
+  $("#f_prix").value=p.prix||"";
+  $("#f_desc").value=p.description||"";
+  $("#f_cat").value=p.categorie||"";
+  $("#f_imgs").value=p.images_csv||"";
+  $("#f_vid").value=p.video_url||"";
+  $("#f_stock").value=p.stock||0;
+  $("#f_sizes").value=p.tailles_csv||"";
+  $("#f_colors").value=p.couleurs_csv||"";
+  $("#f_pub").checked=!!p.published;
+}
+function validForm(p){
+  if(!p.nom||!p.prix||!p.categorie||!p.images_csv){ alert("Champs requis manquants"); return false; }
+  if(p.prix<0){ alert("Prix invalide"); return false; }
+  return true;
+}
+$("#aCreate").onclick=async()=>{
+  const p=formData(); if(!validForm(p)) return;
+  try{ await api.create(p); showToast("Créé"); cache.clear(); await loadAdmin(); }catch(e){ alert(e.message); }
+};
+$("#aUpdate").onclick=async()=>{
+  const p=formData(); if(!p.id){ alert("ID requis"); return; }
+  try{ await api.update(p); showToast("Mis à jour"); cache.clear(); await loadAdmin(); }catch(e){ alert(e.message); }
+};
+$("#aDelete").onclick=async()=>{
+  const id=$("#f_id").value.trim(); if(!id) return alert("ID requis");
+  if(!confirm("Supprimer cet article ?")) return;
+  try{ await api.del(id); showToast("Supprimé"); cache.clear(); await loadAdmin(); }catch(e){ alert(e.message); }
+};
+$("#aRefresh").onclick=()=>{ cache.clear(); loadAll(); if(isAuthed()) loadAdmin(); };
+$("#aExport").onclick=()=>{
+  const data=JSON.stringify(ADMIN_LIST,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="redgreen_products.json"; a.click();
+};
+$("#aLogout").onclick=()=>{ sessionStorage.removeItem(LS_KEYS.SESSION); location.hash="#"; ensureAdmin(); };
+$("#aSearch").addEventListener("input",()=>drawAdminTable(ADMIN_LIST));
 
-        // Variables globales pour les carrousels et modal
-        let carouselIntervals = {};
-        let currentModalProduct = null;
-        let currentModalMediaIndex = 0;
-        let modalQuantity = 1;
+/* =========================
+   LOADING DATA FLOW
+========================= */
+async function loadAll(){
+  $("#year").textContent=new Date().getFullYear();
+  $("#btnWhats").href=`https://wa.me/${CONFIG.WHATSAPP_PHONE}`;
+  $("#btnWhats2").href=`https://wa.me/${CONFIG.WHATSAPP_PHONE}`;
 
-        // Fonctions pour le modal produit
-        function openProductModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            currentModalProduct = product;
-            currentModalMediaIndex = 0;
-            modalQuantity = 1;
-            
-            // Remplir les informations du produit
-            document.getElementById('modal-product-name').textContent = product.name;
-            document.getElementById('modal-product-price').textContent = `${product.price.toLocaleString()} FCFA`;
-            document.getElementById('modal-product-description').textContent = product.description;
-            document.getElementById('modal-quantity').textContent = modalQuantity;
-            
-            // Définir la catégorie
-            const categoryNames = {
-                'visage': 'Soins du visage',
-                'corps': 'Soins du corps',
-                'cheveux': 'Soins capillaires'
-            };
-            document.getElementById('modal-product-category').textContent = categoryNames[product.category] || 'Cosmétique';
-            
-            // Créer la liste des médias (images + vidéos)
-            const allMedia = [
-                ...product.images.map(img => ({ type: 'image', src: img })),
-                ...(product.video ? [{ type: 'video', src: product.video }] : []),
-                ...(product.videos ? product.videos.map(vid => ({ type: 'video', src: vid })) : [])
-            ];
-            
-            // Afficher le premier média
-            displayModalMedia(allMedia[0]);
-            
-            // Créer les miniatures
-            createModalThumbnails(allMedia);
-            
-            // Mettre à jour le compteur
-            updateModalCounter(allMedia.length);
-            
-            // Afficher le modal
-            document.getElementById('product-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Empêcher le scroll de la page
-        }
+  $("#demoBanner").style.display=isDemo()?"block":"none";
 
-        function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Restaurer le scroll
-            currentModalProduct = null;
-        }
+  let data = cache.get();
+  if(!data){
+    try{ data = await api.list(); cache.set(data); }
+    catch(e){ console.warn(e); data = demoData().filter(p=>p.published); showToast("Hors-ligne: démo"); }
+  }
+  ALL_PRODUCTS=data;
+  renderCategories(ALL_PRODUCTS);
+  filterBy("");
+}
+$("#q").addEventListener("input",()=>filterBy(""));
+$("#sort").addEventListener("change",()=>filterBy(""));
 
-        function displayModalMedia(media) {
-            const container = document.getElementById('modal-media-container');
-            
-            if (media.type === 'image') {
-                container.innerHTML = `
-                    <img src="${media.src}" alt="${currentModalProduct.name}" 
-                         class="w-full h-full object-cover rounded-xl"
-                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full\\'><div class=\\'text-center\\'><div class=\\'text-6xl mb-4\\'>🧴</div><p class=\\'text-xl font-semibold text-gray-700\\'>${currentModalProduct.name}</p></div></div>';">
-                `;
-            } else if (media.type === 'video') {
-                container.innerHTML = `
-                    <iframe src="${media.src}" 
-                            class="w-full h-full rounded-xl" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                    </iframe>
-                `;
-            }
-        }
+/* =========================
+   DEMO DATA (fallback)
+========================= */
+function demoData(){
+  return [
+    {id:"prd_demo_1",nom:"Robe midi satin",prix:25000,description:"Coupe élégante, idéale soirée.",categorie:"Robes",images_csv:"https://images.unsplash.com/photo-1542060748-10c28b62716f?q=80&w=800&auto=format&fit=crop,https://images.unsplash.com/photo-1520975693416-35a7d069f78f?q=80&w=800&auto=format&fit=crop",video_url:"",tailles_csv:"S,M,L",couleurs_csv:"Rouge,Noir",stock:6,published:true,created_at:nowISO(),updated_at:nowISO()},
+    {id:"prd_demo_2",nom:"Ensemble casual vert",prix:35000,description:"Confort & style quotidien.",categorie:"Ensembles",images_csv:"https://images.unsplash.com/photo-1475180098004-ca77a66827be?q=80&w=800&auto=format&fit=crop",video_url:"",tailles_csv:"M,L,XL",couleurs_csv:"Vert",stock:0,published:true,created_at:nowISO(),updated_at:nowISO()},
+    {id:"prd_demo_3",nom:"Sac bandoulière",prix:18000,description:"Accessoire chic.",categorie:"Accessoires",images_csv:"https://images.unsplash.com/photo-1511561415786-cc44c56d96a6?q=80&w=800&auto=format&fit=crop",video_url:"",tailles_csv:"TU",couleurs_csv:"Noir,Beige",stock:12,published:true,created_at:nowISO(),updated_at:nowISO()},
+    {id:"prd_demo_4",nom:"Robe soirée sequins",prix:42000,description:"Brillez en soirée.",categorie:"Promotions",images_csv:"https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=800&auto=format&fit=crop",video_url:"",tailles_csv:"S,M",couleurs_csv:"Doré",stock:3,published:false,created_at:nowISO(),updated_at:nowISO()},
+  ];
+}
 
-        function createModalThumbnails(allMedia) {
-            const thumbnailsContainer = document.getElementById('modal-thumbnails');
-            
-            thumbnailsContainer.innerHTML = allMedia.map((media, index) => {
-                if (media.type === 'image') {
-                    return `
-                        <div class="relative cursor-pointer ${index === 0 ? 'ring-2 ring-yellow-500' : ''}" 
-                             onclick="selectModalMedia(${index})">
-                            <img src="${media.src}" alt="Miniature ${index + 1}" 
-                                 class="w-full h-16 object-cover rounded-lg"
-                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'w-full h-16 bg-gray-200 rounded-lg flex items-center justify-center\\'><i class=\\'fas fa-image text-gray-400\\'>🧴</i></div>';">
-                        </div>
-                    `;
-                } else {
-                    return `
-                        <div class="relative cursor-pointer ${index === 0 ? 'ring-2 ring-yellow-500' : ''}" 
-                             onclick="selectModalMedia(${index})">
-                            <div class="w-full h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-play text-red-600 text-xl"></i>
-                            </div>
-                        </div>
-                    `;
-                }
-            }).join('');
-        }
+/* =========================
+   HELPERS
+========================= */
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]))}
+function escapeAttr(s){return escapeHtml(s)}
 
-        function selectModalMedia(index) {
-            const product = currentModalProduct;
-            const allMedia = [
-                ...product.images.map(img => ({ type: 'image', src: img })),
-                ...(product.video ? [{ type: 'video', src: product.video }] : []),
-                ...(product.videos ? product.videos.map(vid => ({ type: 'video', src: vid })) : [])
-            ];
-            
-            currentModalMediaIndex = index;
-            displayModalMedia(allMedia[index]);
-            updateModalCounter(allMedia.length);
-            
-            // Mettre à jour les miniatures
-            document.querySelectorAll('#modal-thumbnails > div').forEach((thumb, i) => {
-                if (i === index) {
-                    thumb.classList.add('ring-2', 'ring-yellow-500');
-                } else {
-                    thumb.classList.remove('ring-2', 'ring-yellow-500');
-                }
-            });
-        }
+/* =========================
+   BOOT
+========================= */
+document.addEventListener("keydown",e=>{ if(e.key==="/"){ e.preventDefault(); $("#q").focus(); }});
+$("#adminLink").addEventListener("click",(e)=>{ if(!requireAuth()){ e.preventDefault(); return; } });
+$("#btnAdmin").addEventListener("click",(e)=>{ if(!requireAuth()){ e.preventDefault(); location.hash="#"; return; } });
 
-        function changeModalMedia(direction) {
-            const product = currentModalProduct;
-            const allMedia = [
-                ...product.images.map(img => ({ type: 'image', src: img })),
-                ...(product.video ? [{ type: 'video', src: product.video }] : []),
-                ...(product.videos ? product.videos.map(vid => ({ type: 'video', src: vid })) : [])
-            ];
-            
-            currentModalMediaIndex = (currentModalMediaIndex + direction + allMedia.length) % allMedia.length;
-            selectModalMedia(currentModalMediaIndex);
-        }
+renderCart(); loadAll(); ensureAdmin();
+</script>
 
-        function updateModalCounter(total) {
-            document.getElementById('modal-media-counter').textContent = `${currentModalMediaIndex + 1} / ${total}`;
-        }
+<!--
+=========================
+ APPS SCRIPT (Code.gs)
+=========================
+Collez ce script dans Google Sheets (Extensions → Apps Script), remplacez API_TOKEN_SHEET,
+puis Déployer → Nouvelle application web → Accès : Tout le monde. Copiez l’URL dans CONFIG.SCRIPT_URL.
 
-        function updateModalQuantity(change) {
-            modalQuantity = Math.max(1, modalQuantity + change);
-            document.getElementById('modal-quantity').textContent = modalQuantity;
-        }
+function doGet(e){
+  const token = (e && (e.parameter['X-API-KEY'] || e.parameter['token'])) || "";
+  const action = e && e.parameter && e.parameter.action;
+  return withCors(() => {
+    if(!checkToken(token) && action!=="list"){ return json({ok:false,error:"Unauthorized"},403); }
+    const sh = getSheet();
+    ensureHeader(sh);
+    if(action==="list"){
+      const rows = readRows(sh).filter(r=>String(r.published).toLowerCase()==="true");
+      return json({ok:true,data:rows});
+    }
+    if(action==="admin_list"){
+      const rows = readRows(sh);
+      return json({ok:true,data:rows});
+    }
+    return json({ok:false,error:"Unknown action"},400);
+  });
+}
 
-        function addToCartFromModal() {
-            if (!currentModalProduct) return;
-            
-            const existingItem = cart.find(item => item.name === currentModalProduct.name);
-            
-            if (existingItem) {
-                existingItem.quantity += modalQuantity;
-            } else {
-                cart.push({
-                    name: currentModalProduct.name,
-                    price: currentModalProduct.price,
-                    quantity: modalQuantity
-                });
-            }
-            
-            updateCartCount();
-            
-            // Animation de confirmation
-            const button = document.getElementById('modal-add-to-cart');
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-check mr-2"></i>Ajouté au panier !';
-            button.classList.add('bg-green-500');
-            
-            setTimeout(() => {
-                button.innerHTML = originalText;
-                button.classList.remove('bg-green-500');
-            }, 2000);
-        }
+function doPost(e){
+  return withCors(() => {
+    const token = e && e.postData && (JSON.parse(e.postData.contents).token || (e.parameter && e.parameter['X-API-KEY']));
+    const body = e && e.postData && JSON.parse(e.postData.contents);
+    if(!checkToken((e && e.parameter && e.parameter['X-API-KEY']) || (body && body.token) || (e && e.parameter && e.parameter.token) || "")){
+      // Also allow header X-API-KEY
+      const hdr = e && e.parameter && e.parameter['X-API-KEY'];
+      if(!checkToken(hdr)) return json({ok:false,error:"Unauthorized"},403);
+    }
+    const sh = getSheet(); ensureHeader(sh);
+    const action = body && body.action;
+    if(action==="create"){
+      const p = sanitizeProduct(body.produit); if(!p.id) p.id = "prd_"+Date.now()+"_"+rand4();
+      p.created_at = p.created_at || nowISO(); p.updated_at = nowISO();
+      sh.appendRow(productToRow(p));
+      return json({ok:true,data:p});
+    }
+    if(action==="update"){
+      const p = sanitizeProduct(body.produit); if(!p.id) return json({ok:false,error:"Missing id"},400);
+      const row = findRowById(sh,p.id); if(row<2) return json({ok:false,error:"Not found"},404);
+      p.updated_at = nowISO();
+      sh.getRange(row,1,1,HEADERS.length).setValues([productToRow(p)]);
+      return json({ok:true,data:p});
+    }
+    if(action==="delete"){
+      const id = body && body.id; if(!id) return json({ok:false,error:"Missing id"},400);
+      const row = findRowById(sh,id); if(row<2) return json({ok:false,error:"Not found"},404);
+      sh.deleteRow(row);
+      return json({ok:true,data:true});
+    }
+    return json({ok:false,error:"Unknown action"},400);
+  });
+}
 
-        function buyNowFromModal() {
-            if (!currentModalProduct) return;
-            
-            // Ajouter au panier temporairement
-            const tempCart = [{
-                name: currentModalProduct.name,
-                price: currentModalProduct.price,
-                quantity: modalQuantity
-            }];
-            
-            const total = tempCart[0].price * tempCart[0].quantity;
-            
-            // Créer le message WhatsApp
-            const message = `🛍️ COMMANDE DIRECTE MOUNA COSMÉTIQUE%0A%0A` +
-                          `📋 PRODUIT:%0A` +
-                          `• ${tempCart[0].name}%0A` +
-                          `  Quantité: ${tempCart[0].quantity}%0A` +
-                          `  Prix unitaire: ${tempCart[0].price.toLocaleString()} FCFA%0A%0A` +
-                          `💰 TOTAL: ${total.toLocaleString()} FCFA%0A%0A` +
-                          `👤 INFORMATIONS CLIENT:%0A` +
-                          `Nom complet: ________________%0A` +
-                          `Téléphone: ________________%0A` +
-                          `Adresse de livraison: ________________%0A%0A` +
-                          `Je souhaite commander ce produit ! 😊`;
-            
-            const whatsappUrl = `https://wa.me/+2250748641373?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-            
-            closeProductModal();
-        }
+/*** Helpers ***/
+const SHEET_NAME="Produits";
+const API_TOKEN_SHEET="change-me-long-secret";
+const HEADERS=["id","nom","prix","description","categorie","images_csv","video_url","tailles_csv","couleurs_csv","stock","published","created_at","updated_at"];
 
-        // Fermer le modal en cliquant à l'extérieur
-        document.getElementById('product-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeProductModal();
-            }
-        });
+function withCors(fn){
+  try{
+    const res=fn();
+    return addCors(res);
+  }catch(err){
+    return addCors(json({ok:false,error:String(err)} ,500));
+  }
+}
+function addCors(res){
+  return ContentService
+    .createTextOutput(res.getContent())
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader("Access-Control-Allow-Origin","*")
+    .setHeader("Access-Control-Allow-Headers","Content-Type,X-API-KEY")
+    .setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
+}
+function json(obj,code){
+  const out=ContentService.createTextOutput(JSON.stringify(obj));
+  if(code){ out.setMimeType(ContentService.MimeType.JSON); }
+  return out;
+}
+function checkToken(t){ return String(t||"")===API_TOKEN_SHEET; }
+function getSheet(){
+  const ss=SpreadsheetApp.getActiveSpreadsheet();
+  let sh=ss.getSheetByName(SHEET_NAME); if(!sh) sh=ss.insertSheet(SHEET_NAME);
+  return sh;
+}
+function ensureHeader(sh){
+  const h=sh.getRange(1,1,1,HEADERS.length).getValues()[0];
+  if(h[0]!==HEADERS[0]) sh.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);
+}
+function readRows(sh){
+  const rng=sh.getDataRange().getValues(); const rows=[];
+  for(let i=1;i<rng.length;i++){
+    const r=rng[i]; if(!r[0]) continue;
+    rows.push(rowToProduct(r));
+  }
+  return rows;
+}
+function productToRow(p){
+  return [
+    p.id||"", p.nom||"", num(p.prix), p.description||"", p.categorie||"",
+    p.images_csv||"", p.video_url||"", p.tailles_csv||"", p.couleurs_csv||"",
+    num(p.stock), bool(p.published), p.created_at||"", p.updated_at||""
+  ];
+}
+function rowToProduct(r){
+  return {
+    id:r[0], nom:r[1], prix:num(r[2]), description:r[3], categorie:r[4],
+    images_csv:r[5], video_url:r[6], tailles_csv:r[7], couleurs_csv:r[8],
+    stock:num(r[9]), published:bool(r[10]), created_at:r[11], updated_at:r[12]
+  };
+}
+function findRowById(sh,id){
+  const col=sh.getRange(2,1,sh.getLastRow()-1,1).getValues().map(x=>x[0]);
+  const idx=col.indexOf(id);
+  return idx<0? -1 : (idx+2);
+}
+function sanitizeProduct(p){
+  if(!p) return {};
+  p.nom=String(p.nom||"").trim();
+  p.description=String(p.description||"").trim();
+  p.categorie=String(p.categorie||"").trim();
+  p.images_csv=String(p.images_csv||"").trim();
+  p.video_url=String(p.video_url||"").trim();
+  p.tailles_csv=String(p.tailles_csv||"").trim();
+  p.couleurs_csv=String(p.couleurs_csv||"").trim();
+  p.stock=num(p.stock); p.prix=num(p.prix);
+  p.published=bool(p.published);
+  return p;
+}
+function num(v){ v=Number(v||0); return isNaN(v)?0:v; }
+function bool(v){ return String(v).toLowerCase()==="true" || v===true || v===1; }
+function nowISO(){ return new Date().toISOString(); }
+function rand4(){ return Math.random().toString(36).slice(2,6); }
 
-        // Fermer le modal avec la touche Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && currentModalProduct) {
-                closeProductModal();
-            }
-        });
+NOTE: si vous recevez une erreur 403, vérifiez API_TOKEN côté site (CONFIG.API_TOKEN) et côté Apps Script (API_TOKEN_SHEET).
+-->
 
-        // Initialiser tous les carrousels
-        function initializeCarousels() {
-            // Nettoyer les anciens intervalles
-            Object.values(carouselIntervals).forEach(interval => clearInterval(interval));
-            carouselIntervals = {};
-            
-            // Initialiser chaque carrousel
-            products.forEach(product => {
-                const carousel = document.getElementById(`carousel-${product.id}`);
-                if (carousel) {
-                    let currentSlide = 0;
-                    const totalSlides = product.images.length + (product.video ? 1 : 0) + (product.videos ? product.videos.length : 0);
-                    
-                    // Fonction pour changer de slide
-                    function nextSlide() {
-                        currentSlide = (currentSlide + 1) % totalSlides;
-                        const translateX = -currentSlide * (100 / totalSlides);
-                        carousel.style.transform = `translateX(${translateX}%)`;
-                        
-                        // Mettre à jour les indicateurs
-                        updateCarouselIndicators(product.id, currentSlide);
-                    }
-                    
-                    // Démarrer le défilement automatique (toutes les 1 secondes)
-                    carouselIntervals[product.id] = setInterval(nextSlide, 1000);
-                    
-                    // Pause au survol
-                    const productCard = carousel.closest('.product-card');
-                    if (productCard) {
-                        productCard.addEventListener('mouseenter', () => {
-                            clearInterval(carouselIntervals[product.id]);
-                        });
-                        
-                        productCard.addEventListener('mouseleave', () => {
-                            carouselIntervals[product.id] = setInterval(nextSlide, 3000);
-                        });
-                    }
-                    
-                    // Clic sur les indicateurs
-                    const dots = document.querySelectorAll(`[data-product="${product.id}"]`);
-                    dots.forEach((dot, index) => {
-                        dot.addEventListener('click', () => {
-                            currentSlide = index;
-                            const translateX = -currentSlide * (100 / totalSlides);
-                            carousel.style.transform = `translateX(${translateX}%)`;
-                            updateCarouselIndicators(product.id, currentSlide);
-                            
-                            // Redémarrer l'intervalle
-                            clearInterval(carouselIntervals[product.id]);
-                            carouselIntervals[product.id] = setInterval(nextSlide, 3000);
-                        });
-                    });
-                }
-            });
-        }
-
-        // Mettre à jour les indicateurs du carrousel
-        function updateCarouselIndicators(productId, activeIndex) {
-            const dots = document.querySelectorAll(`[data-product="${productId}"]`);
-            dots.forEach((dot, index) => {
-                if (index === activeIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        // Menu mobile
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuBtn = document.getElementById('mobile-menu-btn');
-            const icon = menuBtn.querySelector('i');
-            
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                mobileMenu.classList.add('hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        }
-
-        // Fermer le menu mobile lors du redimensionnement
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                const mobileMenu = document.getElementById('mobile-menu');
-                const menuBtn = document.getElementById('mobile-menu-btn');
-                const icon = menuBtn.querySelector('i');
-                
-                mobileMenu.classList.add('hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            
-            // Ajouter Google Analytics (exemple)
-            // gtag('config', 'GA_MEASUREMENT_ID');
-            
-            // Ajouter Facebook Pixel (exemple)
-            // fbq('init', 'PIXEL_ID');
-            // fbq('track', 'PageView');
-        });
-    </script>
-
-    <!-- Google Analytics (à remplacer par votre ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
-    </script>
-
-    <!-- Facebook Pixel (à remplacer par votre ID) -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', 'PIXEL_ID');
-        fbq('track', 'PageView');
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98223d4f17e3b7b7',t:'MTc1ODM4MDkyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
-
