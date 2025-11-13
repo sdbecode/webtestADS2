@@ -273,15 +273,15 @@ label{font-weight:600;font-size:.92rem}
 /* =========================
    CONFIG & CONSTANTS
 ========================= */
-const CONFIG={
-  BUSINESS_NAME:"RedGreen.boutik",
-  LOCATION:"Abidjan, Côte d’Ivoire",
-  WHATSAPP_PHONE:"2250712623814", // sans +
-  SCRIPT_URL:"https://script.google.com/macros/s/AKfycbzUpn2It-Mn9F4ILmnWEKbfYAvX_07Dy9nREnPChsFFQxAjb5JbLy-MRFudrq7XqeBF/exec",
-  API_TOKEN:"rgb-2025-long-secret",
-  ADMIN_USERNAME:"ADMIN",
-  ADMIN_PASSWORD:"RedGreenB2025",
-  CACHE_TTL_MS: 5*60*1000
+const CONFIG = {
+  BUSINESS_NAME: "RedGreen.boutik",
+  LOCATION: "Abidjan, Côte d’Ivoire",
+  WHATSAPP_PHONE: "2250712623814",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzUpn2It-Mn9F4ILmnWEKbfYAvX_07Dy9nREnPChsFFQxAjb5JbLy-MRFudrq7XqeBF/exec", // <= ton URL /exec
+  API_TOKEN: "rgb-2025-long-secret", // <= DOIT être identique à API_TOKEN_SHEET dans Code.gs
+  ADMIN_USERNAME: "ADMIN",
+  ADMIN_PASSWORD: "RedGreenB2025",
+  CACHE_TTL_MS: 5 * 60 * 1000
 };
 const LS_KEYS={CART:"rg.cart", CACHE:"rg.cache.products", SESSION:"rg.session"};
 
@@ -310,37 +310,60 @@ const isDemo=()=>!CONFIG.SCRIPT_URL||!CONFIG.API_TOKEN;
 /* =========================
    API CLIENT (Apps Script)
 ========================= */
-const api={
-  async list(){
-    if(isDemo()) return demoData().filter(p=>p.published);
-    const url=new URL(CONFIG.SCRIPT_URL);
-    url.searchParams.set("action","list");
-    const r=await fetch(url,{headers:{"X-API-KEY":CONFIG.API_TOKEN}});
-    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API");
+const api = {
+  async list() {
+    if (isDemo()) return demoData().filter(p => p.published);
+    const url = new URL(CONFIG.SCRIPT_URL);
+    url.searchParams.set("action", "list");
+    const r = await fetch(url);            // GET simple (aucun header custom)
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "Erreur API");
     return j.data;
   },
-  async adminList(){
-    if(isDemo()) return demoData();
-    const url=new URL(CONFIG.SCRIPT_URL);
+
+  async adminList() {
+    if (isDemo()) return demoData();
+    const url = new URL(CONFIG.SCRIPT_URL);
     url.searchParams.set("action","admin_list");
-    const r=await fetch(url,{headers:{"X-API-KEY":CONFIG.API_TOKEN}});
-    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API");
+    url.searchParams.set("token", CONFIG.API_TOKEN);  // token dans l’URL
+    const r = await fetch(url);                       // GET simple
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "Erreur API");
     return j.data;
   },
-  async create(prod){
-    if(isDemo()) {showToast("Démo: création locale"); return prod;}
-    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"create",produit:prod})});
-    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+
+  async create(prod) {
+    if (isDemo()) { showToast("Démo: création locale"); return prod; }
+    const body = { action:"create", token:CONFIG.API_TOKEN, produit: prod };
+    const r = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, // pas d’en-tête custom => pas de préflight
+      body: JSON.stringify(body)
+    });
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "Erreur API");
+    return j.data;
   },
-  async update(prod){
-    if(isDemo()) {showToast("Démo: mise à jour locale"); return prod;}
-    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"update",produit:prod})});
-    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+
+  async update(prod) {
+    if (isDemo()) { showToast("Démo: mise à jour locale"); return prod; }
+    const body = { action:"update", token:CONFIG.API_TOKEN, produit: prod };
+    const r = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(body)
+    });
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "Erreur API");
+    return j.data;
   },
-  async del(id){
-    if(isDemo()) {showToast("Démo: suppression locale"); return true;}
-    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"application/json","X-API-KEY":CONFIG.API_TOKEN},body:JSON.stringify({action:"delete",id})});
-    const j=await r.json(); if(!j.ok) throw new Error(j.error||"Erreur API"); return j.data;
+
+  async del(id) {
+    if (isDemo()) { showToast("Démo: suppression locale"); return true; }
+    const body = { action:"delete", token:CONFIG.API_TOKEN, id };
+    const r = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(body)
+    });
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "Erreur API");
+    return j.data;
   }
 };
 
