@@ -10,7 +10,8 @@
   --red:#d61f26;--green:#1ba579;--black:#111;--white:#fff;--gold:#c7a93a;
   --bg:#fafafa;--muted:#666;--card:#fff;--border:#eee;
 }
-*{box-sizing:border-box}html,body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Color Emoji","Apple Color Emoji",sans-serif;color:var(--black);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Color Emoji","Apple Color Emoji",sans-serif;color:var(--black);background:var(--bg)}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer}
 .container{max-width:1100px;margin:0 auto;padding:0 16px}
@@ -76,8 +77,83 @@ label{font-weight:600;font-size:.92rem}
 .gallery .main img,.gallery .main video{width:100%;height:360px;object-fit:cover;border-radius:12px;background:#f3f3f3}
 .map{border:0;width:100%;height:260px;border-radius:16px}
 .notice{padding:8px 12px;border:1px dashed var(--gold);background:#fff8d8;border-radius:10px;color:#7a6420}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr} .modal .body{grid-template-columns:1fr}}
-@media(max-width:540px){.grid{grid-template-columns:1fr} .nav .chip{display:none} .search input{width:110px}}
+
+/* =========================
+   PAGE PRODUIT PLEIN ÉCRAN
+========================= */
+
+.product-page .product-layout{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:20px;
+}
+
+.product-main{
+  position:relative;
+}
+
+.product-main img,
+.product-main video{
+  width:100%;
+  max-height:460px;
+  border-radius:16px;
+  object-fit:cover;
+  background:#f3f3f3;
+  cursor:zoom-in;
+  transition:max-height .25s, transform .25s, object-fit .25s;
+}
+
+/* État zoomé : on montre TOUTE l’image, plus grande, sans la couper */
+.product-main img.zoomed{
+  max-height:80vh;      /* prend jusqu’à 80% de la hauteur de l’écran */
+  object-fit:contain;   /* montre l’image entière */
+  transform:none;       /* pas de crop par zoom */
+  cursor:zoom-out;
+}
+
+.product-thumbs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+
+.product-thumbs img{
+  width:70px;
+  height:70px;
+  border-radius:8px;
+  object-fit:cover;
+  border:2px solid transparent;
+  cursor:pointer;
+}
+
+.product-thumbs img.active{
+  border-color:var(--green);
+}
+
+.breadcrumb{
+  font-size:.9rem;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+/* Responsive page produit */
+@media(max-width:900px){
+  .product-page .product-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .hero .wrap{grid-template-columns:1fr}
+  .modal .body{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .grid{grid-template-columns:1fr}
+  .nav .chip{display:none}
+  .search input{width:110px}
+}
 </style>
 </head>
 <body>
@@ -120,6 +196,54 @@ label{font-weight:600;font-size:.92rem}
       </select>
     </div>
     <div id="grid" class="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- PAGE PRODUIT PLEIN ÉCRAN -->
+<section id="productPage" class="section product-page" style="display:none">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="#boutique" id="backToList">← Retour à la boutique</a>
+    </div>
+    <div class="product-layout">
+      <div>
+        <div class="product-main" id="pMain"></div>
+        <div class="product-thumbs" id="pThumbs"></div>
+      </div>
+      <div>
+        <h1 id="pTitle"></h1>
+        <div class="price" id="pPrice"></div>
+        <p class="muted" id="pCat"></p>
+        <p id="pDesc"></p>
+
+        <div class="form-row" style="margin-top:10px">
+          <div>
+            <label>Taille</label>
+            <select id="pSize"></select>
+          </div>
+          <div>
+            <label>Couleur</label>
+            <select id="pColor"></select>
+          </div>
+        </div>
+
+        <div style="margin:10px 0">
+          <label>Quantité</label>
+          <div class="qty">
+            <button id="pMinus">−</button>
+            <input id="pQty" type="number" min="1" value="1">
+            <button id="pPlus">+</button>
+          </div>
+        </div>
+
+        <div class="tags" id="pFlags"></div>
+
+        <div class="actions" style="margin-top:12px">
+          <button id="pAddCart" class="btn primary">Ajouter au panier</button>
+          <button id="pBuyNow" class="btn ghost">Commander maintenant sur WhatsApp</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -396,19 +520,26 @@ function renderProducts(list){
   for(const p of list){
     const card=document.createElement("div"); card.className="card";
     card.innerHTML=`
-      <img loading="lazy" alt="${escapeHtml(p.nom)}" src="${escapeAttr(productImage(p))}">
+      <img loading="lazy" alt="${escapeHtml(p.nom)}" src="${escapeAttr(productImage(p))}" data-open="page" data-id="${p.id}">
       <div class="body">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>${escapeHtml(p.nom)}</strong>
+          <strong class="p-title" data-open="page" data-id="${p.id}">${escapeHtml(p.nom)}</strong>
           ${Number(p.stock||0)<=0?'<span class="badge-sm">Rupture</span>':''}
         </div>
         <div class="price">${formatXOF(p.prix)}</div>
         <div class="muted">${escapeHtml(p.categorie||'—')}</div>
-        <div class="actions"><button class="btn" data-id="${p.id}">Voir</button></div>
+        <div class="actions">
+          <button class="btn" data-id="${p.id}" data-open="modal">Voir</button>
+        </div>
       </div>`;
     grid.appendChild(card);
   }
-  grid.querySelectorAll("button[data-id]").forEach(b=>b.addEventListener("click",()=>openProduct(b.dataset.id)));
+  // Bouton "Voir" => modale produit
+  grid.querySelectorAll("button[data-open='modal']")
+    .forEach(b=>b.addEventListener("click",()=>openProduct(b.dataset.id)));
+  // Clic sur image ou titre => page produit plein écran
+  grid.querySelectorAll("[data-open='page']")
+    .forEach(el=>el.addEventListener("click",()=>openProductPage(el.dataset.id)));
 }
 
 function categoriesFrom(list){
@@ -476,6 +607,139 @@ $("#mAdd").onclick=()=>{
   addToCart({id:CURRENT.id,nom:CURRENT.nom,prix:+CURRENT.prix,qty:+$("#mQty").value||1, variante:{taille:$("#mSize").value||"",couleur:$("#mColor").value||""}, img:productImage(CURRENT)});
   $("#productModal").classList.remove("open");
   showToast("Ajouté au panier");
+};
+
+/* =========================
+   PAGE PRODUIT PLEIN ECRAN
+========================= */
+let CURRENT_PAGE_PRODUCT = null;
+
+function buildProductSelectors(p, sizeSel, colorSel){
+  sizeSel.innerHTML = "";
+  colorSel.innerHTML = "";
+
+  const sizes = parseCSV(p.tailles_csv);
+  const colors = parseCSV(p.couleurs_csv);
+
+  sizeSel.appendChild(new Option(sizes[0] || "Taille unique", sizes[0] || "TU"));
+  sizes.slice(1).forEach(s => sizeSel.appendChild(new Option(s,s)));
+
+  colorSel.appendChild(new Option(colors[0] || "—", colors[0] || ""));
+  colors.slice(1).forEach(c => colorSel.appendChild(new Option(c,c)));
+}
+
+function openProductPage(id){
+  const p = ALL_PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+
+  CURRENT_PAGE_PRODUCT = p;
+
+  const imgs = parseCSV(p.images_csv);
+  const $main = $("#pMain");
+  const $thumbs = $("#pThumbs");
+  $main.innerHTML = "";
+  $thumbs.innerHTML = "";
+
+  const show = (src, isVideo=false)=>{
+    if(!src) return;
+    if(isVideo){
+      $main.innerHTML = `<video src="${escapeAttr(src)}" controls></video>`;
+    }else{
+      $main.innerHTML = `<img id="pMainImg" alt="${escapeHtml(p.nom)}" src="${escapeAttr(src)}">`;
+      const imgEl = $("#pMainImg");
+      if(imgEl){
+        imgEl.addEventListener("click",()=>{
+          imgEl.classList.toggle("zoomed");
+        });
+      }
+    }
+  };
+
+  imgs.forEach((src,i)=>{
+    const im = document.createElement("img");
+    im.src = src;
+    im.alt = "";
+    if(i===0) im.classList.add("active");
+    im.addEventListener("click", ()=>{
+      $thumbs.querySelectorAll("img").forEach(t=>t.classList.remove("active"));
+      im.classList.add("active");
+      show(src,false);
+    });
+    $thumbs.appendChild(im);
+  });
+
+  if(p.video_url){
+    const v = document.createElement("img");
+    v.src = imgs[0] || "https://via.placeholder.com/70x70?text=Vid";
+    v.alt = "Vidéo";
+    v.title = "Voir la vidéo";
+    v.addEventListener("click",()=>show(p.video_url,true));
+    $thumbs.appendChild(v);
+  }
+
+  show(imgs[0] || p.video_url || "");
+
+  $("#pTitle").textContent = p.nom;
+  $("#pPrice").textContent = formatXOF(p.prix);
+  $("#pCat").textContent = p.categorie || "";
+  $("#pDesc").textContent = p.description || "";
+
+  buildProductSelectors(p, $("#pSize"), $("#pColor"));
+  $("#pQty").value = 1;
+
+  const flags = $("#pFlags");
+  flags.innerHTML = "";
+  if(Number(p.stock||0) <= 0){
+    flags.innerHTML += '<span class="badge-sm">Rupture de stock</span>';
+  }
+
+  // Afficher la page produit, masquer la boutique
+  $("#boutique").style.display = "block"; // on garde la section pour scroll, mais on peut la masquer si tu veux
+  $("#boutique").style.display = "none";
+  $("#productPage").style.display = "block";
+
+  // Hash lisible pour navigation (retour, rafraîchir, etc.)
+  location.hash = `#produit-${encodeURIComponent(p.id)}`;
+}
+
+$("#backToList").addEventListener("click",(e)=>{
+  e.preventDefault();
+  $("#productPage").style.display = "none";
+  $("#boutique").style.display = "block";
+  location.hash = "#boutique";
+});
+
+$("#pMinus").onclick = ()=> $("#pQty").value = Math.max(1, (+$("#pQty").value||1) - 1);
+$("#pPlus").onclick  = ()=> $("#pQty").value = (+$("#pQty").value||1) + 1;
+
+function collectProductPageLine(){
+  if(!CURRENT_PAGE_PRODUCT) return null;
+  return {
+    id: CURRENT_PAGE_PRODUCT.id,
+    nom: CURRENT_PAGE_PRODUCT.nom,
+    prix: +CURRENT_PAGE_PRODUCT.prix,
+    qty: +($("#pQty").value || 1),
+    variante: {
+      taille: $("#pSize").value || "",
+      couleur: $("#pColor").value || ""
+    },
+    img: productImage(CURRENT_PAGE_PRODUCT)
+  };
+}
+
+$("#pAddCart").onclick = ()=>{
+  const line = collectProductPageLine(); 
+  if(!line) return;
+  addToCart(line);
+  showToast("Ajouté au panier");
+};
+
+$("#pBuyNow").onclick = ()=>{
+  const line = collectProductPageLine(); 
+  if(!line) return;
+  addToCart(line);
+  $("#cart").classList.add("open");
+  $("#cart").setAttribute("aria-hidden","false");
 };
 
 /* =========================
@@ -562,7 +826,10 @@ function ensureAdmin(){
     $("#admin").style.display="block"; loadAdmin();
   } else $("#admin").style.display="none";
 }
-window.addEventListener("hashchange", ensureAdmin);
+window.addEventListener("hashchange", ()=>{
+  ensureAdmin();
+  handleProductHash();
+});
 
 /* Admin rendering */
 let ADMIN_LIST=[];
@@ -662,6 +929,22 @@ $("#aLogout").onclick=()=>{ sessionStorage.removeItem(LS_KEYS.SESSION); location
 $("#aSearch").addEventListener("input",()=>drawAdminTable(ADMIN_LIST));
 
 /* =========================
+   ROUTAGE HASH (produit / boutique)
+========================= */
+function handleProductHash(){
+  const h = location.hash;
+  if(h.startsWith("#produit-")){
+    const id = decodeURIComponent(h.replace("#produit-",""));
+    if(ALL_PRODUCTS.length){
+      openProductPage(id);
+    }
+  }else if(h==="#boutique" || h==="" || h==="#"){
+    $("#productPage").style.display = "none";
+    $("#boutique").style.display = "block";
+  }
+}
+
+/* =========================
    LOADING DATA FLOW
 ========================= */
 async function loadAll(){
@@ -679,6 +962,7 @@ async function loadAll(){
   ALL_PRODUCTS=data;
   renderCategories(ALL_PRODUCTS);
   filterBy("");
+  handleProductHash();
 }
 $("#q").addEventListener("input",()=>filterBy(""));
 $("#sort").addEventListener("change",()=>filterBy(""));
@@ -710,150 +994,6 @@ $("#btnAdmin").addEventListener("click",(e)=>{ if(!requireAuth()){ e.preventDefa
 
 renderCart(); loadAll(); ensureAdmin();
 </script>
-
-<!--
-=========================
- APPS SCRIPT (Code.gs)
-=========================
-Collez ce script dans Google Sheets (Extensions → Apps Script), remplacez API_TOKEN_SHEET,
-puis Déployer → Nouvelle application web → Accès : Tout le monde. Copiez l’URL dans CONFIG.SCRIPT_URL.
-
-function doGet(e){
-  const token = (e && (e.parameter['X-API-KEY'] || e.parameter['token'])) || "";
-  const action = e && e.parameter && e.parameter.action;
-  return withCors(() => {
-    if(!checkToken(token) && action!=="list"){ return json({ok:false,error:"Unauthorized"},403); }
-    const sh = getSheet();
-    ensureHeader(sh);
-    if(action==="list"){
-      const rows = readRows(sh).filter(r=>String(r.published).toLowerCase()==="true");
-      return json({ok:true,data:rows});
-    }
-    if(action==="admin_list"){
-      const rows = readRows(sh);
-      return json({ok:true,data:rows});
-    }
-    return json({ok:false,error:"Unknown action"},400);
-  });
-}
-
-function doPost(e){
-  return withCors(() => {
-    const token = e && e.postData && (JSON.parse(e.postData.contents).token || (e.parameter && e.parameter['X-API-KEY']));
-    const body = e && e.postData && JSON.parse(e.postData.contents);
-    if(!checkToken((e && e.parameter && e.parameter['X-API-KEY']) || (body && body.token) || (e && e.parameter && e.parameter.token) || "")){
-      // Also allow header X-API-KEY
-      const hdr = e && e.parameter && e.parameter['X-API-KEY'];
-      if(!checkToken(hdr)) return json({ok:false,error:"Unauthorized"},403);
-    }
-    const sh = getSheet(); ensureHeader(sh);
-    const action = body && body.action;
-    if(action==="create"){
-      const p = sanitizeProduct(body.produit); if(!p.id) p.id = "prd_"+Date.now()+"_"+rand4();
-      p.created_at = p.created_at || nowISO(); p.updated_at = nowISO();
-      sh.appendRow(productToRow(p));
-      return json({ok:true,data:p});
-    }
-    if(action==="update"){
-      const p = sanitizeProduct(body.produit); if(!p.id) return json({ok:false,error:"Missing id"},400);
-      const row = findRowById(sh,p.id); if(row<2) return json({ok:false,error:"Not found"},404);
-      p.updated_at = nowISO();
-      sh.getRange(row,1,1,HEADERS.length).setValues([productToRow(p)]);
-      return json({ok:true,data:p});
-    }
-    if(action==="delete"){
-      const id = body && body.id; if(!id) return json({ok:false,error:"Missing id"},400);
-      const row = findRowById(sh,id); if(row<2) return json({ok:false,error:"Not found"},404);
-      sh.deleteRow(row);
-      return json({ok:true,data:true});
-    }
-    return json({ok:false,error:"Unknown action"},400);
-  });
-}
-
-/*** Helpers ***/
-const SHEET_NAME="Produits";
-const API_TOKEN_SHEET="change-me-long-secret";
-const HEADERS=["id","nom","prix","description","categorie","images_csv","video_url","tailles_csv","couleurs_csv","stock","published","created_at","updated_at"];
-
-function withCors(fn){
-  try{
-    const res=fn();
-    return addCors(res);
-  }catch(err){
-    return addCors(json({ok:false,error:String(err)} ,500));
-  }
-}
-function addCors(res){
-  return ContentService
-    .createTextOutput(res.getContent())
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin","*")
-    .setHeader("Access-Control-Allow-Headers","Content-Type,X-API-KEY")
-    .setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
-}
-function json(obj,code){
-  const out=ContentService.createTextOutput(JSON.stringify(obj));
-  if(code){ out.setMimeType(ContentService.MimeType.JSON); }
-  return out;
-}
-function checkToken(t){ return String(t||"")===API_TOKEN_SHEET; }
-function getSheet(){
-  const ss=SpreadsheetApp.getActiveSpreadsheet();
-  let sh=ss.getSheetByName(SHEET_NAME); if(!sh) sh=ss.insertSheet(SHEET_NAME);
-  return sh;
-}
-function ensureHeader(sh){
-  const h=sh.getRange(1,1,1,HEADERS.length).getValues()[0];
-  if(h[0]!==HEADERS[0]) sh.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);
-}
-function readRows(sh){
-  const rng=sh.getDataRange().getValues(); const rows=[];
-  for(let i=1;i<rng.length;i++){
-    const r=rng[i]; if(!r[0]) continue;
-    rows.push(rowToProduct(r));
-  }
-  return rows;
-}
-function productToRow(p){
-  return [
-    p.id||"", p.nom||"", num(p.prix), p.description||"", p.categorie||"",
-    p.images_csv||"", p.video_url||"", p.tailles_csv||"", p.couleurs_csv||"",
-    num(p.stock), bool(p.published), p.created_at||"", p.updated_at||""
-  ];
-}
-function rowToProduct(r){
-  return {
-    id:r[0], nom:r[1], prix:num(r[2]), description:r[3], categorie:r[4],
-    images_csv:r[5], video_url:r[6], tailles_csv:r[7], couleurs_csv:r[8],
-    stock:num(r[9]), published:bool(r[10]), created_at:r[11], updated_at:r[12]
-  };
-}
-function findRowById(sh,id){
-  const col=sh.getRange(2,1,sh.getLastRow()-1,1).getValues().map(x=>x[0]);
-  const idx=col.indexOf(id);
-  return idx<0? -1 : (idx+2);
-}
-function sanitizeProduct(p){
-  if(!p) return {};
-  p.nom=String(p.nom||"").trim();
-  p.description=String(p.description||"").trim();
-  p.categorie=String(p.categorie||"").trim();
-  p.images_csv=String(p.images_csv||"").trim();
-  p.video_url=String(p.video_url||"").trim();
-  p.tailles_csv=String(p.tailles_csv||"").trim();
-  p.couleurs_csv=String(p.couleurs_csv||"").trim();
-  p.stock=num(p.stock); p.prix=num(p.prix);
-  p.published=bool(p.published);
-  return p;
-}
-function num(v){ v=Number(v||0); return isNaN(v)?0:v; }
-function bool(v){ return String(v).toLowerCase()==="true" || v===true || v===1; }
-function nowISO(){ return new Date().toISOString(); }
-function rand4(){ return Math.random().toString(36).slice(2,6); }
-
-NOTE: si vous recevez une erreur 403, vérifiez API_TOKEN côté site (CONFIG.API_TOKEN) et côté Apps Script (API_TOKEN_SHEET).
--->
 
 </body>
 </html>
